@@ -1,0 +1,5 @@
+# Preliminaries
+
+## What Is This Book About?
+
+本书涉及用 Python 操作、处理、清理和处理数据的具体细节。本书的目标是提供有关 Python 编程语言及其面向数据的库生态系统和工具的指南，帮助您成为一名高效的数据分析师。虽然本书的标题是“data analysis”，但重点是 Python 编程、库和工具，而不是数据分析方法。这是数据分析所需的 Python 编程。

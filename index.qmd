@@ -1,0 +1,6 @@
+# About {.unnumbered}
+
+本书为《Python for Data Analysis》的中文翻译版本，仅供个人学习。
+
+原书链接：<https://wesmckinney.com/book>
+

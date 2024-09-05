@@ -1,0 +1,31 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Python for Data Analysis, 3E"
+  reader-mode: true
+  cover-image: cover.png
+  favicon: cover.png
+  site-url: https://ZhengTiger.github.io/pydata-book-zh-cn/
+  repo-url: https://github.com/ZhengTiger/pydata-book-zh-cn
+  repo-branch: main
+  repo-actions: [edit, issue]
+  chapters:
+  - index.qmd
+
+  - part: Chapters
+    chapters: 
+    - 01.preliminaries.qmd
+    - 02.python-basics.qmd
+
+
+bibliography: references.bib
+
+format:
+  html:
+    mainfont: "Microsoft Yahei"
+    theme: cosmo
+
+editor: source
+

@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "16b37b2f"
+  },
+  "intro.qmd": {
+    "intro.html": "a6080ffc"
+  },
+  "summary.qmd": {
+    "summary.html": "96bd3382"
+  },
+  "references.qmd": {
+    "references.html": "1c28b1ea"
+  },
+  "01.preliminaries.qmd": {
+    "01.preliminaries.html": "f7dd0048"
+  },
+  "02.python-basics.qmd": {
+    "02.python-basics.html": "38ad0a0f"
+  }
+}

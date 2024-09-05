@@ -1,0 +1,75 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "pydata-book-zh-cn",
+    "section": "",
+    "text": "About",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "2  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "References"
+    ]
+  },
+  {
+    "objectID": "01.preliminaries.html",
+    "href": "01.preliminaries.html",
+    "title": "1  Preliminaries",
+    "section": "",
+    "text": "1.1 What Is This Book About?\n本书涉及用 Python 操作、处理、清理和处理数据的具体细节。本书的目标是提供有关 Python 编程语言及其面向数据的库生态系统和工具的指南，帮助您成为一名高效的数据分析师。虽然本书的标题是“data analysis”，但重点是 Python 编程、库和工具，而不是数据分析方法。这是数据分析所需的 Python 编程。",
+    "crumbs": [
+      "Chapters",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Preliminaries</span>"
+    ]
+  },
+  {
+    "objectID": "02.python-basics.html",
+    "href": "02.python-basics.html",
+    "title": "2  Python Language Basics, IPython, and Jupyter Notebooks",
+    "section": "",
+    "text": "2.1 The Python Interpreter (Python 解释器)\nPython 是一种解释型(interpreted)语言。Python 解释器通过一次执行一条语句来运行程序。可以使用 python 命令在命令行上调用标准交互式 Python 解释器：\n您看到的 &gt;&gt;&gt; 是提示符，您可以在该提示符后键入代码表达式。要退出 Python 解释器，您可以键入 exit() 或按 Ctrl-D（仅适用于 Linux 和 macOS）。\n运行 Python 程序就像使用 .py 文件作为第一个参数调用 python 一样简单。假设我们使用以下内容创建了 hello_world.py：\nprint(\"Hello world\")\n您可以通过执行以下命令来运行它（hello_world.py 文件必须位于您当前的工作终端目录中）：\n虽然一些 Python 程序员以这种方式执行所有 Python 代码，但进行数据分析或科学计算的程序员则使用 IPython（一种增强的 Python 解释器）或 Jupyter notebooks（最初在 IPython 项目中创建的基于 Web 的代码笔记本）。作者在本章中介绍了如何使用 IPython 和 Jupyter，并在 Appendix A: Advanced NumPy 中更深入地了解了 IPython 功能。当您使用 %run 命令时，IPython 会在同一进程中执行指定文件中的代码，使您能够在完成后以交互方式探索结果：\n与标准的 &gt;&gt;&gt; 提示符相比，默认的 IPython 提示符采用编号 In [2]: 样式。",
+    "crumbs": [
+      "Chapters",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Python Language Basics, IPython, and Jupyter Notebooks</span>"
+    ]
+  },
+  {
+    "objectID": "02.python-basics.html#the-python-interpreter-python-解释器",
+    "href": "02.python-basics.html#the-python-interpreter-python-解释器",
+    "title": "2  Python Language Basics, IPython, and Jupyter Notebooks",
+    "section": "",
+    "text": "$ python\nPython 3.10.4 | packaged by conda-forge | (main, Mar 24 2022, 17:38:57)\n[GCC 10.3.0] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n&gt;&gt;&gt; a = 5\n&gt;&gt;&gt; print(a)\n5\n\n\n\n\n$ python hello_world.py\nHello world\n\n$ ipython\nPython 3.10.4 | packaged by conda-forge | (main, Mar 24 2022, 17:38:57)\nType 'copyright', 'credits' or 'license' for more information\nIPython 7.31.1 -- An enhanced Interactive Python. Type '?' for help.\n\nIn [1]: %run hello_world.py\nHello world\n\nIn [2]:",
+    "crumbs": [
+      "Chapters",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Python Language Basics, IPython, and Jupyter Notebooks</span>"
+    ]
+  }
+]

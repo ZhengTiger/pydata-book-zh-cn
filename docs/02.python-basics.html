@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Python for Data Analysis, 3E - 2&nbsp; Python Language Basics, IPython, and Jupyter Notebooks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./01.preliminaries.html" rel="prev">
+<link href="./cover.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01.preliminaries.html">Chapters</a></li><li class="breadcrumb-item"><a href="./02.python-basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Python Language Basics, IPython, and Jupyter Notebooks</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Python for Data Analysis, 3E</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ZhengTiger/pydata-book-zh-cn" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Chapters</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01.preliminaries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preliminaries</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02.python-basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Python Language Basics, IPython, and Jupyter Notebooks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-python-interpreter-python-解释器" id="toc-the-python-interpreter-python-解释器" class="nav-link active" data-scroll-target="#the-python-interpreter-python-解释器"><span class="header-section-number">2.1</span> The Python Interpreter (Python 解释器)</a></li>
+  <li><a href="#ipython-basics" id="toc-ipython-basics" class="nav-link" data-scroll-target="#ipython-basics"><span class="header-section-number">2.2</span> IPython Basics</a>
+  <ul class="collapse">
+  <li><a href="#running-the-ipython-shell" id="toc-running-the-ipython-shell" class="nav-link" data-scroll-target="#running-the-ipython-shell"><span class="header-section-number">2.2.1</span> Running the IPython Shell</a></li>
+  <li><a href="#running-the-jupyter-notebook" id="toc-running-the-jupyter-notebook" class="nav-link" data-scroll-target="#running-the-jupyter-notebook"><span class="header-section-number">2.2.2</span> Running the Jupyter Notebook</a></li>
+  <li><a href="#tab-completion" id="toc-tab-completion" class="nav-link" data-scroll-target="#tab-completion"><span class="header-section-number">2.2.3</span> Tab Completion</a></li>
+  <li><a href="#introspection" id="toc-introspection" class="nav-link" data-scroll-target="#introspection"><span class="header-section-number">2.2.4</span> Introspection</a></li>
+  </ul></li>
+  <li><a href="#python-language-basics" id="toc-python-language-basics" class="nav-link" data-scroll-target="#python-language-basics"><span class="header-section-number">2.3</span> Python Language Basics</a>
+  <ul class="collapse">
+  <li><a href="#language-semantics" id="toc-language-semantics" class="nav-link" data-scroll-target="#language-semantics"><span class="header-section-number">2.3.1</span> Language Semantics</a></li>
+  <li><a href="#scalar-types" id="toc-scalar-types" class="nav-link" data-scroll-target="#scalar-types"><span class="header-section-number">2.3.2</span> Scalar Types</a></li>
+  <li><a href="#control-flow" id="toc-control-flow" class="nav-link" data-scroll-target="#control-flow"><span class="header-section-number">2.3.3</span> Control Flow</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">2.4</span> Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhengTiger/pydata-book-zh-cn/edit/main/02.python-basics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhengTiger/pydata-book-zh-cn/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01.preliminaries.html">Chapters</a></li><li class="breadcrumb-item"><a href="./02.python-basics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Python Language Basics, IPython, and Jupyter Notebooks</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Python Language Basics, IPython, and Jupyter Notebooks</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-python-interpreter-python-解释器" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-python-interpreter-python-解释器"><span class="header-section-number">2.1</span> The Python Interpreter (Python 解释器)</h2>
+<p>Python 是一种解释型（interpreted）语言。Python 解释器通过一次执行一条语句来运行程序。可以使用 <code>python</code> 命令在命令行上调用标准交互式 Python 解释器：</p>
+<pre><code>$ python
+Python 3.10.4 | packaged by conda-forge | (main, Mar 24 2022, 17:38:57)
+[GCC 10.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; a = 5
+&gt;&gt;&gt; print(a)
+5</code></pre>
+<p>您看到的 <code>&gt;&gt;&gt;</code> 是提示符，您可以在该提示符后键入代码表达式。要退出 Python 解释器，您可以键入 <code>exit()</code> 或按 Ctrl-D（仅适用于 Linux 和 macOS）。</p>
+<p>运行 Python 程序就像使用 <em>.py</em> 文件作为第一个参数调用 <code>python</code> 一样简单。假设我们使用以下内容创建了 <em>hello_world.py</em>：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello world"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>您可以通过执行以下命令来运行它（<em>hello_world.py</em> 文件必须位于您当前的工作终端目录中）：</p>
+<pre><code>$ python hello_world.py
+Hello world</code></pre>
+<p>虽然一些 Python 程序员以这种方式执行所有 Python 代码，但进行数据分析或科学计算的程序员则使用 IPython（一种增强的 Python 解释器）或 Jupyter notebooks（最初在 IPython 项目中创建的基于 Web 的代码笔记本）。我在本章中介绍了如何使用 IPython 和 Jupyter，并在 <a href="https://wesmckinney.com/book/advanced-numpy">Appendix A: Advanced NumPy</a> 中更深入地了解了 IPython 功能。当您使用 <code>%run</code> 命令时，IPython 会在同一进程中执行指定文件中的代码，使您能够在完成后以交互方式探索结果：</p>
+<pre><code>$ ipython
+Python 3.10.4 | packaged by conda-forge | (main, Mar 24 2022, 17:38:57)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.31.1 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: %run hello_world.py
+Hello world
+
+In [2]:</code></pre>
+<p>与标准的 <code>&gt;&gt;&gt;</code> 提示符相比，默认的 IPython 提示符采用编号 <code>In [2]:</code> 样式。</p>
+</section>
+<section id="ipython-basics" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="ipython-basics"><span class="header-section-number">2.2</span> IPython Basics</h2>
+<p>在本节中，我将帮助您启动并运行 IPython shell 和 Jupyter Notebook，并向您介绍一些基本概念。</p>
+<section id="running-the-ipython-shell" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="running-the-ipython-shell"><span class="header-section-number">2.2.1</span> Running the IPython Shell</h3>
+<p>您可以在命令行上启动 IPython shell，就像启动常规 Python 解释器一样，只不过使用 <code>ipython</code> 命令：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>$ ipython</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Python <span class="fl">3.10.4</span> <span class="op">|</span> packaged by conda<span class="op">-</span>forge <span class="op">|</span> (main, Mar <span class="dv">24</span> <span class="dv">2022</span>, <span class="dv">17</span>:<span class="dv">38</span>:<span class="dv">57</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Type <span class="st">'copyright'</span>, <span class="st">'credits'</span> <span class="kw">or</span> <span class="st">'license'</span> <span class="cf">for</span> more information</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>IPython <span class="fl">7.31.1</span> <span class="op">--</span> An enhanced Interactive Python. Type <span class="st">'?'</span> <span class="cf">for</span> <span class="bu">help</span>.</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">1</span>]: a <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">2</span>]: a</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">2</span>]: <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>您可以通过键入任意 Python 语句并按 Return（或 Enter）来执行它们。当您在 IPython 中键入一个变量时，它会呈现该对象的字符串表示形式：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">5</span>]: <span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">6</span>]: data <span class="op">=</span> [np.random.standard_normal() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>)]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">7</span>]: data</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">7</span>]: </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>[<span class="op">-</span><span class="fl">0.20470765948471295</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.47894333805754824</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">0.5194387150567381</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">0.55573030434749</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.9657805725027142</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.3934058329729904</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.09290787674371767</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>前两行是 Python 代码语句；第二条语句创建一个名为 <code>data</code> 的变量，该变量引用新创建的列表。最后一行在控制台中打印 <code>data</code> 的值。</p>
+<p>许多类型的 Python 对象都被格式化为更具可读性或打印更美观，这与普通的 <code>print</code> 打印不同。如果你在标准 Python 解释器中打印上面的 <code>data</code> 变量，它的可读性会低得多：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> data <span class="op">=</span> [np.random.standard_normal() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">7</span>)]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="bu">print</span>(data)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> data</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>[<span class="op">-</span><span class="fl">0.5767699931966723</span>, <span class="op">-</span><span class="fl">0.1010317773535111</span>, <span class="op">-</span><span class="fl">1.7841005313329152</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">1.524392126408841</span>, <span class="fl">0.22191374220117385</span>, <span class="op">-</span><span class="fl">1.9835710588082562</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fl">1.6081963964963528</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>IPython 还提供了执行任意代码块（通过某种美化的复制粘贴方法）和整个 Python 脚本的工具。您还可以使用 Jupyter notebook 来处理更大的代码块，我们很快就会看到。</p>
+</section>
+<section id="running-the-jupyter-notebook" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="running-the-jupyter-notebook"><span class="header-section-number">2.2.2</span> Running the Jupyter Notebook</h3>
+<p>Jupyter 项目的主要组件之一是 <em>notebook</em>，一种用于代码、文本（包括 Markdown）、数据可视化和其他输出的交互式文档。Jupyter notebook 与 <em>kernels</em> 交互，<em>kernels</em> 是特定于不同编程语言的 Jupyter 交互式计算协议的实现。Python Jupyter kernel 使用 IPython 系统来实现其底层行为。</p>
+<p>要启动 Jupyter，请在终端中运行命令 <code>jupyter notebook</code>：</p>
+<pre><code>$ jupyter notebook
+[I 15:20:52.739 NotebookApp] Serving notebooks from local directory:
+/home/wesm/code/pydata-book
+[I 15:20:52.739 NotebookApp] 0 active kernels
+[I 15:20:52.739 NotebookApp] The Jupyter Notebook is running at:
+http://localhost:8888/?token=0a77b52fefe52ab83e3c35dff8de121e4bb443a63f2d...
+[I 15:20:52.740 NotebookApp] Use Control-C to stop this server and shut down
+all kernels (twice to skip confirmation).
+Created new window in existing browser session.
+    To access the notebook, open this file in a browser:
+        file:///home/wesm/.local/share/jupyter/runtime/nbserver-185259-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=0a77b52fefe52ab83e3c35dff8de121e4...
+     or http://127.0.0.1:8888/?token=0a77b52fefe52ab83e3c35dff8de121e4...</code></pre>
+<p>在许多平台上，Jupyter 将自动在您的默认 Web 浏览器中打开（除非您使用 <code>--no-browser</code> 启动它）。否则，您可以导航到启动笔记本时打印的 HTTP 地址，此处为 <code>http://localhost:8888/?token=0a77b52fefe52ab83e3c35dff8de121e4bb443a63f2d3055</code>。请参阅 <a href="https://wesmckinney.com/book/python-basics#fig-figure_jupyter_landing">Figure 2.1</a> 了解 Google Chrome 中的情况。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>很多人使用 Jupyter 作为本地计算环境，但它也可以部署在服务器上并远程访问。我不会在这里介绍这些细节，但我鼓励您在互联网上探索这个主题（如果它与您的需求相关）。</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wesmckinney.com/book/images/pda3_0201.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2.1: Jupyter notebook landing page</figcaption>
+</figure>
+</div>
+<p>要创建新的笔记本，请单击“新建”按钮并选择“Python 3”选项。您应该看到如 <a href="https://wesmckinney.com/book/python-basics#fig-figure_jupyter_new_nb">Figure 2.2</a> 所示的内容。如果这是您第一次，请尝试单击空代码“单元格”并输入一行 Python 代码。然后按 Shift-Enter 执行它。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wesmckinney.com/book/images/pda3_0202.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2.2: Jupyter new notebook view</figcaption>
+</figure>
+</div>
+<p>保存笔记本时（see “Save and Checkpoint” under the notebook File menu），它会创建一个扩展名为 <em>.ipynb</em> 的文件。这是一种独立的文件格式，包含当前笔记本中的所有内容（包括任何评估的代码输出）。其他 Jupyter 用户可以加载和编辑它们。</p>
+<p>要重命名打开的笔记本，请单击页面顶部的笔记本标题并键入新标题，完成后按 Enter。</p>
+<p>要加载现有笔记本，请将文件放在启动笔记本进程的同一目录中（或其中的子文件夹中），然后单击登录页面中的名称。您可以使用我在 GitHub 上的 <em>wesm/pydata-book</em> 存储库中的笔记本进行尝试。参见 <a href="https://wesmckinney.com/book/python-basics#fig-figure_jupyter_existing_nb">Figure 2.3</a>。</p>
+<p>当您想要关闭笔记本时，请单击 File 菜单并选择 “Close and Halt”。如果您只是关闭浏览器选项卡，与笔记本关联的 Python 进程将继续在后台运行。</p>
+<p>虽然 Jupyter Notebook 可能给人一种与 IPython shell 截然不同的体验，但本章中的几乎所有命令和工具都可以在任一环境中使用。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wesmckinney.com/book/images/pda3_0203.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2.3: Jupyter example view for an existing notebook</figcaption>
+</figure>
+</div>
+</section>
+<section id="tab-completion" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="tab-completion"><span class="header-section-number">2.2.3</span> Tab Completion</h3>
+<p>从表面上看，IPython shell 看起来像是标准终端 Python 解释器（使用 <code>python</code> 调用）的一个外观上不同的版本。相对于标准 Python shell 的主要改进之一是制表符补全，在许多 IDEs 或其他交互式计算分析环境中都可以找到。在 shell 中输入表达式时，按 Tab 键将在命名空间中搜索与您目前键入的字符相匹配的任何变量（对象、函数等），并在方便的下拉菜单中显示结果：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">1</span>]: an_apple <span class="op">=</span> <span class="dv">27</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">2</span>]: an_example <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">3</span>]: an<span class="op">&lt;</span>Tab<span class="op">&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>an_apple   an_example  <span class="bu">any</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在此示例中，请注意 IPython 显示了我定义的两个变量以及内置函数 <code>any</code>。此外，您还可以在输入句点后完成任何对象的方法和属性：</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">3</span>]: b <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">4</span>]: b.<span class="op">&lt;</span>Tab<span class="op">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>append()  count()   insert()  reverse()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>clear()   extend()  pop()     sort()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>copy()    index()   remove()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>对于模块也是如此：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">1</span>]: <span class="im">import</span> datetime</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">2</span>]: datetime.<span class="op">&lt;</span>Tab<span class="op">&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>date          MAXYEAR       timedelta</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>datetime      MINYEAR       timezone</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>datetime_CAPI time          tzinfo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>请注意，IPython 默认隐藏以下划线开头的方法和属性，例如 magic 方法和内部“私有（private）”方法和属性，以避免显示混乱（并使新手用户感到困惑！）。这些也可以通过制表符完成，但您必须首先键入下划线才能看到它们。如果您希望始终在制表符补全中看到此类方法，则可以在 IPython 配置中更改此设置。请参阅 <a href="https://ipython.readthedocs.io/">IPython documentation</a> 以了解如何执行此操作。</p>
+</div>
+</div>
+<p>除了搜索交互式命名空间和完成对象或模块属性之外，选项卡补全还可以在许多上下文中使用。当输入任何看起来像文件路径的内容时（即使是 Python 字符串），按 Tab 键将完成计算机文件系统上与您输入的内容匹配的任何内容。</p>
+<p>与 <code>%run</code> 命令（请参阅 <a href="https://wesmckinney.com/book/ipython#ipython_basics_magic_run">Appendix B.2.1: The %run Command</a>）结合使用，此功能可以节省您许多击键次数。</p>
+<p>制表符补全可以节省时间的另一个方面是函数关键字参数的补全（包括 <code>=</code> 符号！）。参见 <a href="https://wesmckinney.com/book/python-basics#fig-figure_jupyter_autocomplete_keywords">Figure 2.4</a>。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wesmckinney.com/book/images/pda3_0204.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2.4: Autocomplete function keywords in a Jupyter notebook</figcaption>
+</figure>
+</div>
+<p>稍后我们将更仔细地了解函数。</p>
+</section>
+<section id="introspection" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="introspection"><span class="header-section-number">2.2.4</span> Introspection</h3>
+<p>在变量之前或之后使用问号 (<code>?</code>) 将显示有关该对象的一些常规信息：</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">1</span>]: b <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">2</span>]: b?</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Type:        <span class="bu">list</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>String form: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>Length:      <span class="dv">3</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>Docstring:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>Built<span class="op">-</span><span class="kw">in</span> mutable sequence.</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>If no argument <span class="kw">is</span> given, the constructor creates a new empty <span class="bu">list</span>.</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>The argument must be an iterable <span class="cf">if</span> specified.</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">3</span>]: <span class="bu">print</span>?</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>Docstring:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(value, ..., sep<span class="op">=</span><span class="st">' '</span>, end<span class="op">=</span><span class="st">'</span><span class="ch">\n</span><span class="st">'</span>, <span class="bu">file</span><span class="op">=</span>sys.stdout, flush<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>Prints the values to a stream, <span class="kw">or</span> to sys.stdout by default.</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>Optional keyword arguments:</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span>:  a <span class="bu">file</span><span class="op">-</span>like <span class="bu">object</span> (stream)<span class="op">;</span> defaults to the current sys.stdout.</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>sep:   string inserted between values, default a space.</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>end:   string appended after the last value, default a newline.</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>flush: whether to forcibly flush the stream.</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>Type:      builtin_function_or_method</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这称为对象自省（introspection）。如果对象是函数或实例方法，则还将显示文档字符串（如果已定义）。假设我们编写了以下函数（您可以在 IPython 或 Jupyter 中重现）：</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_numbers(a, b):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Add two numbers together</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">    the_sum : type of arguments</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>然后使用 <code>?</code> 向我们展示了文档字符串：</p>
+<pre><code>In [6]: add_numbers?
+Signature: add_numbers(a, b)
+Docstring:
+Add two numbers together
+Returns
+-------
+the_sum : type of arguments
+File:      &lt;ipython-input-9-6a548a216e27&gt;
+Type:      function</code></pre>
+<p><code>?</code>还有最后一个用途，即以类似于标准 Unix 或 Windows 命令行的方式搜索 IPython 命名空间。多个字符与通配符 (<code>*</code>) 组合将显示与通配符表达式匹配的所有名称。例如，我们可以获得顶级 NumPy 命名空间中包含 <code>load</code> 的所有函数的列表：</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">9</span>]: <span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">10</span>]: np.<span class="op">*</span>load<span class="op">*</span>?</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>np.__loader__</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>np.load</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>np.loads</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>np.loadtxt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="python-language-basics" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="python-language-basics"><span class="header-section-number">2.3</span> Python Language Basics</h2>
+<p>在本节中，我将概述基本的 Python 编程概念和语言机制。在下一章中，我将更详细地介绍 Python 数据结构、函数和其他内置工具。</p>
+<section id="language-semantics" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="language-semantics"><span class="header-section-number">2.3.1</span> Language Semantics</h3>
+<p>Python 语言设计的特点是强调可读性、简单性和明确性。有些人甚至将其比作“可执行伪代码（executable pseudocode）”。</p>
+<p><strong>Indentation, not braces（缩进，而不是大括号）</strong></p>
+<p>Python 使用空格（制表符或空格）来构建代码，而不是像 R、C++、Java 和 Perl 等许多其他语言那样使用大括号。考虑排序算法中的 <code>for</code> 循环：</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> array:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;</span> pivot:</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        less.append(x)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        greater.append(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>冒号表示缩进代码块的开始，之后所有代码都必须缩进相同的量，直到块的末尾。</p>
+<p>不管你喜欢还是讨厌，重要的空格对于 Python 程序员来说都是一个事实。虽然一开始它可能看起来很陌生，但希望您很快就会习惯它。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>我强烈建议使用<em>四个空格</em>作为默认缩进，并将制表符替换为四个空格。许多文本编辑器都有一个设置，可以自动用空格替换制表位（这样做！）。IPython 和 Jupyter notebooks 将自动在冒号后面的新行中插入四个空格，并将制表符替换为四个空格。</p>
+</div>
+</div>
+<p>正如您现在所看到的，Python 语句也不需要以分号终止。但是，可以使用分号来分隔一行上的多个语句：</p>
+<pre><code>a = 5; b = 6; c = 7</code></pre>
+<p>在 Python 中通常不鼓励将多个语句放在一行上，因为这会降低代码的可读性。</p>
+<p><strong>Everything is an object（一切皆对象）</strong></p>
+<p>Python 语言的一个重要特性是其对象模型的一致性。每个数字、字符串、数据结构、函数、类、模块等都存在于 Python 解释器中自己的“盒子”中，称为 <em>Python object</em>。每个对象都有一个关联的类型（例如整数、字符串或函数）和内部数据。实际上，这使得该语言非常灵活，因为甚至函数也可以像任何其他对象一样对待。</p>
+<p><strong>Comments（注释）</strong></p>
+<p>Python 解释器会忽略任何以井号 <code>#</code> 开头的文本。这通常用于向代码添加注释。有时您可能还想排除某些代码块而不删除它们。一种解决方案是注释掉代码：</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> file_handle:</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keep the empty lines for now</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if len(line) == 0:</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   continue</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    results.append(line.replace(<span class="st">"foo"</span>, <span class="st">"bar"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>注释也可以出现在执行代码行之后。虽然有些程序员喜欢将注释放在特定代码行的前面，但这有时很有用：</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Reached this line"</span>)  <span class="co"># Simple status report</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Function and object method calls（函数和对象方法调用）</strong></p>
+<p>您可以使用括号并传递零个或多个参数来调用函数，还可以选择将返回值分配给变量：</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> f(x, y, z)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>g()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python 中几乎每个对象都具有附加函数（称为方法），可以访问对象的内部内容。您可以使用以下语法来调用它们：</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>obj.some_method(x, y, z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>函数可以同时采用位置参数和关键字参数：</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> f(a, b, c, d<span class="op">=</span><span class="dv">5</span>, e<span class="op">=</span><span class="st">"foo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>稍后我们将更详细地讨论这一点。</p>
+<p><strong>Variables and argument passing（变量和参数传递）</strong></p>
+<p>在 Python 中分配变量（或名称）时，您正在创建对等号右侧显示的对象的引用。实际上，考虑一个整数列表：</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">8</span>]: a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>假设我们将 <code>a</code> 赋给一个新变量 <code>b</code>：</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">9</span>]: b <span class="op">=</span> a</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">10</span>]: b</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">10</span>]: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在某些语言中，如果 <code>b</code> 的赋值会导致数据 <code>[1, 2, 3]</code> 被复制。在 Python 中，<code>a</code> 和 <code>b</code> 现在实际上指的是同一个对象，即原始列表 <code>[1, 2, 3]</code>（参见 <a href="https://wesmckinney.com/book/python-basics#fig-figure_references">Figure 2.5</a> 的模型）。您可以通过将一个元素附加到 <code>a</code> 然后检查 <code>b</code> 来向自己证明这一点：</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">11</span>]: a.append(<span class="dv">4</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">12</span>]: b</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">12</span>]: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wesmckinney.com/book/images/pda3_0205.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2.5: Two references for the same object</figcaption>
+</figure>
+</div>
+<p>当您在 Python 中处理较大的数据集时，了解 Python 中引用的语义以及复制数据的时间、方式和原因尤其重要。</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>赋值（Assignment）也称为绑定（binding），因为我们将名称绑定到对象。已分配的变量名称有时可能称为绑定变量。</p>
+</div>
+</div>
+<p>当您将对象作为参数传递给函数时，将创建引用原始对象的新局部变量，而不进行任何复制。如果将新对象绑定到函数内部的变量，则不会覆盖函数外部“范围(scope)”（“父范围(parent scope)”）中的同名变量。因此，可以改变可变参数的内部结构。假设我们有以下函数：</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">13</span>]: <span class="kw">def</span> append_element(some_list, element):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>   ....:     some_list.append(element)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>然后我们有：</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">14</span>]: data <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">15</span>]: append_element(data, <span class="dv">4</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">16</span>]: data</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">16</span>]: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Dynamic references, strong types（动态引用、强类型）</strong></p>
+<p>Python 中的变量没有与其关联的固有类型；只需进行赋值，变量就可以引用不同类型的对象。以下情况是没有问题的：</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">17</span>]: a <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">18</span>]: <span class="bu">type</span>(a)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">18</span>]: <span class="bu">int</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">19</span>]: a <span class="op">=</span> <span class="st">"foo"</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">20</span>]: <span class="bu">type</span>(a)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">20</span>]: <span class="bu">str</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>变量是特定命名空间中对象的名称；类型信息存储在对象本身中。一些观察者可能会仓促得出结论：Python 不是一种“类型化语言”。这不是真的；考虑这个例子：</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">21</span>]: <span class="st">"5"</span> <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="op">---------------------------------------------------------------------------</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>                                 Traceback (most recent call last)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>ipython<span class="op">-</span><span class="bu">input</span><span class="op">-</span><span class="dv">21</span><span class="op">-</span><span class="dv">7</span><span class="er">fe5aa79f268</span><span class="op">&gt;</span> <span class="kw">in</span> <span class="op">&lt;</span>module<span class="op">&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="op">----&gt;</span> <span class="dv">1</span> <span class="st">"5"</span> <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>: can only concatenate <span class="bu">str</span> (<span class="kw">not</span> <span class="st">"int"</span>) to <span class="bu">str</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在某些语言中，字符串 <code>'5'</code> 可能会隐式转换为整数，从而生成 <code>10</code>。在其他语言中，整数 <code>5</code> 可能会转换为字符串，生成连接字符串 <code>'55'</code>。在 Python 中，不允许这种隐式转换。就此而言，我们说 Python 是一种<em>强类型（strongly typed）</em>语言，这意味着每个对象都有特定的类型（或类），并且只有在某些允许的情况下才会发生隐式转换，例如：</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">22</span>]: a <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">23</span>]: b <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># String formatting, to be visited later</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">24</span>]: <span class="bu">print</span>(<span class="ss">f"a is </span><span class="sc">{</span><span class="bu">type</span>(a)<span class="sc">}</span><span class="ss">, b is </span><span class="sc">{</span><span class="bu">type</span>(b)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> <span class="op">&lt;</span><span class="kw">class</span> <span class="st">'float'</span><span class="op">&gt;</span>, b <span class="kw">is</span> <span class="op">&lt;</span><span class="kw">class</span> <span class="st">'int'</span><span class="op">&gt;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">25</span>]: a <span class="op">/</span> b</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">25</span>]: <span class="fl">2.25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这里，即使 <code>b</code> 是整数，它也会被隐式转换为浮点数以进行除法运算。</p>
+<p>了解对象的类型很重要，并且能够编写可以处理多种不同类型输入的函数非常有用。您可以使用 <code>isinstance</code> 函数检查对象是否是特定类型的实例：</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">26</span>]: a <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">27</span>]: <span class="bu">isinstance</span>(a, <span class="bu">int</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">27</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>如果您想检查对象的类型是否属于元组中存在的类型，则 <code>isinstance</code> 可以接受类型元组：</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">28</span>]: a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> b <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">29</span>]: <span class="bu">isinstance</span>(a, (<span class="bu">int</span>, <span class="bu">float</span>))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">29</span>]: <span class="va">True</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">30</span>]: <span class="bu">isinstance</span>(b, (<span class="bu">int</span>, <span class="bu">float</span>))</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">30</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Attributes and methods（属性和方法）</strong></p>
+<p>Python 中的对象通常具有属性（存储在对象“内部”的其他 Python 对象）和方法（与对象关联的可以访问对象内部数据的函数）。它们都可以通过语法 &lt;obj.attribute_name&gt; 访问：</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">1</span>]: a <span class="op">=</span> <span class="st">"foo"</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">2</span>]: a.<span class="op">&lt;</span>Press Tab<span class="op">&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>capitalize() index()        isspace()      removesuffix()  startswith()</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>casefold()   isprintable()  istitle()      replace()       strip()</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>center()     isalnum()      isupper()      rfind()         swapcase()</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>count()      isalpha()      join()         rindex()        title()</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>encode()     isascii()      ljust()        rjust()         translate()</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>endswith()   isdecimal()    lower()        rpartition()</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>expandtabs() isdigit()      lstrip()       rsplit()</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>find()       isidentifier() maketrans()    rstrip()</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span>()     islower()      partition()    split()</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>format_map() isnumeric()    removeprefix() splitlines()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>属性和方法也可以通过 <code>getattr</code> 函数按名称访问：</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">32</span>]: <span class="bu">getattr</span>(a, <span class="st">"split"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">32</span>]: <span class="op">&lt;</span>function <span class="bu">str</span>.split(sep<span class="op">=</span><span class="va">None</span>, maxsplit<span class="op">=-</span><span class="dv">1</span>)<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>虽然我们不会在本书中广泛使用函数 <code>getattr</code> 以及相关函数 <code>hasattr</code> 和 <code>setattr</code>，但它们可以非常有效地用于编写通用的、可重用的代码。</p>
+<p><strong>Duck typing（鸭子类型）</strong></p>
+<p>通常，您可能不关心对象的类型，而只关心它是否具有某些方法或行为。这有时被称为鸭子类型，俗话说“如果它像鸭子一样行走并且像鸭子一样嘎嘎叫，那么它就是一只鸭子”。例如，如果一个对象实现了迭代器协议（iterator protocol），您可以验证该对象是否可迭代。对于许多对象来说，这意味着它有一个 <code>__iter__</code> “魔术方法（magic method）”，尽管另一种更好的检查方法是尝试使用 <code>iter</code> 函数：</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">33</span>]: <span class="kw">def</span> isiterable(obj):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>   ....:     <span class="cf">try</span>:</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>   ....:         <span class="bu">iter</span>(obj)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>   ....:         <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>   ....:     <span class="cf">except</span> <span class="pp">TypeError</span>: <span class="co"># not iterable</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>   ....:         <span class="cf">return</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>对于字符串以及大多数 Python 集合类型，此函数将返回 <code>True</code>：</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">34</span>]: isiterable(<span class="st">"a string"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">34</span>]: <span class="va">True</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">35</span>]: isiterable([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">35</span>]: <span class="va">True</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">36</span>]: isiterable(<span class="dv">5</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">36</span>]: <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Imports</strong></p>
+<p>在 Python 中，模块只是一个包含 Python 代码、扩展名为 <em>.py</em> 的文件。假设我们有以下模块：</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># some_module.py</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>PI <span class="op">=</span> <span class="fl">3.14159</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> g(a, b):</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>如果我们想从同一目录中的另一个文件访问 <em>some_module.py</em> 中定义的变量和函数，我们可以这样做：</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> some_module</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> some_module.f(<span class="dv">5</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>pi <span class="op">=</span> some_module.PI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>或者：</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> some_module <span class="im">import</span> g, PI</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> g(<span class="dv">5</span>, PI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>通过使用 <code>as</code> 关键字，您可以为导入指定不同的变量名称：</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> some_module <span class="im">as</span> sm</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> some_module <span class="im">import</span> PI <span class="im">as</span> pi, g <span class="im">as</span> gf</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>r1 <span class="op">=</span> sm.f(pi)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> gf(<span class="dv">6</span>, pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Binary operators and comparisons（二元运算符和比较）</strong></p>
+<p>大多数二元数学运算和比较都使用其他编程语言中使用的熟悉的数学语法：</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">37</span>]: <span class="dv">5</span> <span class="op">-</span> <span class="dv">7</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">37</span>]: <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">38</span>]: <span class="dv">12</span> <span class="op">+</span> <span class="fl">21.5</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">38</span>]: <span class="fl">33.5</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">39</span>]: <span class="dv">5</span> <span class="op">&lt;=</span> <span class="dv">2</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">39</span>]: <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>有关所有可用的二元运算符，请参阅 <a href="https://wesmckinney.com/book/python-basics#tbl-table_binary_ops">Table 2.1</a>。</p>
+<table class="table">
+<caption>Table 2.1: Binary operators</caption>
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>a + b</code></td>
+<td style="text-align: left;"><code>a</code> 加 <code>b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a - b</code></td>
+<td style="text-align: left;"><code>a</code> 减 <code>b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a * b</code></td>
+<td style="text-align: left;"><code>a</code> 乘 <code>b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a / b</code></td>
+<td style="text-align: left;"><code>a</code> 除 <code>b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a // b</code></td>
+<td style="text-align: left;"><code>a</code> 除 <code>b</code> 后取整</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a ** b</code></td>
+<td style="text-align: left;"><code>a</code> 的 <code>b</code> 次方</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a &amp; b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 和 <code>b</code> 都为 <code>True</code>，则为 <code>True</code>；对于整数，采用按位 <code>AND</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a | b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 或 <code>b</code> 为 <code>True</code>，则为 <code>True</code>；对于整数，采用按位 <code>OR</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a ^ b</code></td>
+<td style="text-align: left;">对于布尔值，如果 <code>a</code> 或 <code>b</code> 为 <code>True</code>，但不是两者都为 <code>True</code>，则为 <code>True</code>；对于整数，采用按位 <code>EXCLUSIVE-OR</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a == b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 等于 <code>b</code>，则为 <code>True</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a != b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 不等于 <code>b</code>，则为 <code>True</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a &lt; b, a &lt;= b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 小于（小于或等于）<code>b</code>，则为 <code>True</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a &gt; b, a &gt;= b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 大于（大于或等于）<code>b</code>，则为 <code>True</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>a is b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 和 <code>b</code> 引用同一个 Python 对象，则为 <code>True</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>a is not b</code></td>
+<td style="text-align: left;">如果 <code>a</code> 和 <code>b</code> 引用不同的 Python 对象，则为 <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>要检查两个变量是否引用同一个对象，请使用 <code>is</code> 关键字。使用 <code>is not</code> 检查两个对象是否不相同：</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">40</span>]: a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">41</span>]: b <span class="op">=</span> a</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">42</span>]: c <span class="op">=</span> <span class="bu">list</span>(a)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">43</span>]: a <span class="kw">is</span> b</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">43</span>]: <span class="va">True</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">44</span>]: a <span class="kw">is</span> <span class="kw">not</span> c</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">44</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>由于 <code>list</code> 函数总是创建一个新的 Python 列表（即副本），因此我们可以确定 <code>c</code> 与 <code>a</code> 不同。使用 <code>is</code> 进行比较与 <code>==</code> 运算符不同，因为在这种情况下我们有：</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">45</span>]: a <span class="op">==</span> c</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">45</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>is</code> 和 <code>is not</code> 的一种常见用途是检查变量是否为 <code>None</code>，因为 <code>None</code> 仅有一个实例：</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">46</span>]: a <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">47</span>]: a <span class="kw">is</span> <span class="va">None</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">47</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Mutable and immutable objects（可变和不可变对象）</strong></p>
+<p>Python 中的许多对象，例如列表、字典、NumPy 数组和大多数用户定义的类型（类），都是可变的。这意味着可以修改它们包含的对象或值：</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">48</span>]: a_list <span class="op">=</span> [<span class="st">"foo"</span>, <span class="dv">2</span>, [<span class="dv">4</span>, <span class="dv">5</span>]]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">49</span>]: a_list[<span class="dv">2</span>] <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">50</span>]: a_list</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">50</span>]: [<span class="st">'foo'</span>, <span class="dv">2</span>, (<span class="dv">3</span>, <span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>其他的，如字符串和元组，是不可变的，这意味着它们的内部数据不能更改：</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">51</span>]: a_tuple <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">5</span>, (<span class="dv">4</span>, <span class="dv">5</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">52</span>]: a_tuple[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"four"</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="op">---------------------------------------------------------------------------</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>                                 Traceback (most recent call last)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>ipython<span class="op">-</span><span class="bu">input</span><span class="op">-</span><span class="dv">52</span><span class="op">-</span>cd2a018a7529<span class="op">&gt;</span> <span class="kw">in</span> <span class="op">&lt;</span>module<span class="op">&gt;</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="op">----&gt;</span> <span class="dv">1</span> a_tuple[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"four"</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>: <span class="st">'tuple'</span> <span class="bu">object</span> does <span class="kw">not</span> support item assignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>请记住，仅仅因为您可以改变对象并不意味着您总是应该这样做。此类行为称为副作用。例如，在编写函数时，应在函数的文档或注释中明确向用户传达任何副作用。如果可能的话，我建议尝试避免副作用并支持不变性，即使可能涉及可变对象。</p>
+</section>
+<section id="scalar-types" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="scalar-types"><span class="header-section-number">2.3.2</span> Scalar Types</h3>
+<p>Python 有一小部分内置类型用于处理数值数据、字符串、布尔值（<code>True</code> 或 <code>False</code>）以及日期和时间。这些“单值（single value）”类型有时称为<em>标量类型（scalar types）</em>，我们在本书中将它们称为<em>标量（scalars）</em>。有关主要标量类型的列表，请参阅 <a href="https://wesmckinney.com/book/python-basics#tbl-table_python_scalar_types">Table 2.2</a>。日期和时间处理将单独讨论，因为它们是由标准库中的 <code>datetime</code> 模块提供的。</p>
+<table class="table">
+<caption>Table 2.2: Standard Python scalar types</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">Python “null” 值（<code>None</code> 对象仅存在一个实例）</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>str</code></td>
+<td style="text-align: left;">字符串类型；保存 Unicode 字符串</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>bytes</code></td>
+<td style="text-align: left;">原始二进制数据</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>float</code></td>
+<td style="text-align: left;">双精度浮点数（注意没有单独的 <code>double</code> 类型）</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>bool</code></td>
+<td style="text-align: left;">布尔 <code>True</code> 或 <code>False</code> 值</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>int</code></td>
+<td style="text-align: left;">任意精度整数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Numeric types</strong></p>
+<p>Python 中数字的主要类型是 <code>int</code> 和 <code>float</code>。<code>int</code> 可以存储任意大的数字：</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">53</span>]: ival <span class="op">=</span> <span class="dv">17239871</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">54</span>]: ival <span class="op">**</span> <span class="dv">6</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">54</span>]: <span class="dv">26254519291092456596965462913230729701102721</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>浮点数用 Python <code>float</code> 类型表示。在底层，每一个都是一个双精度值。它们也可以用科学计数法来表示：</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">55</span>]: fval <span class="op">=</span> <span class="fl">7.243</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">56</span>]: fval2 <span class="op">=</span> <span class="fl">6.78e-5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>不产生整数的整数除法将始终产生浮点数：</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">57</span>]: <span class="dv">3</span> <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">57</span>]: <span class="fl">1.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>要获得 C-style 的整数除法（如果结果不是整数，则舍去小数部分），请使用向下取整除法运算符 <code>//</code>：</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">58</span>]: <span class="dv">3</span> <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">58</span>]: <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Strings</strong></p>
+<p>许多人使用 Python 是因为它内置的字符串处理功能。您可以使用单引号 <code>'</code> 或双引号 <code>"</code> 编写字符串文字（通常首选双引号）：</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="st">'one way of writing a string'</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="st">"another way"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python 的字符串类型是 <code>str</code>。</p>
+<p>对于带有换行符的多行字符串，您可以使用三引号，即 <code>'''</code> 或 <code>"""</code>：</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="st">This is a longer string that</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="st">spans multiple lines</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>您可能会惊讶这个字符串 <code>c</code> 实际上包含四行文本； <code>"""</code> 之后的换行符和 <code>lines</code> 之后都包含在字符串中。我们可以使用 <code>c</code> 上的 <code>count</code> 方法来计算新行字符：</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">60</span>]: c.count(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">60</span>]: <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python 字符串是不可变的；你不能修改字符串：</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">61</span>]: a <span class="op">=</span> <span class="st">"this is a string"</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">62</span>]: a[<span class="dv">10</span>] <span class="op">=</span> <span class="st">"f"</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="op">---------------------------------------------------------------------------</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>                                 Traceback (most recent call last)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>ipython<span class="op">-</span><span class="bu">input</span><span class="op">-</span><span class="dv">62</span><span class="op">-</span><span class="dv">3</span><span class="er">b2d95f10db4</span><span class="op">&gt;</span> <span class="kw">in</span> <span class="op">&lt;</span>module<span class="op">&gt;</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="op">----&gt;</span> <span class="dv">1</span> a[<span class="dv">10</span>] <span class="op">=</span> <span class="st">"f"</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="pp">TypeError</span>: <span class="st">'str'</span> <span class="bu">object</span> does <span class="kw">not</span> support item assignment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>要解释此错误消息，请从下往上阅读。我们尝试将位置 10 处的字符（“item”）替换为字母<code>"f"</code>，但这对于字符串对象是不允许的。如果我们需要修改字符串，我们必须使用创建新字符串的函数或方法，例如字符串 <code>replace</code> 方法：</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">63</span>]: b <span class="op">=</span> a.replace(<span class="st">"string"</span>, <span class="st">"longer string"</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">64</span>]: b</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">64</span>]: <span class="st">'this is a longer string'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>执行此操作后，变量 <code>a</code> 未修改：</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">65</span>]: a</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">65</span>]: <span class="st">'this is a string'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>许多 Python 对象可以使用 <code>str</code> 函数转换为字符串：</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">66</span>]: a <span class="op">=</span> <span class="fl">5.6</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">67</span>]: s <span class="op">=</span> <span class="bu">str</span>(a)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">68</span>]: <span class="bu">print</span>(s)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="fl">5.6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>字符串是 Unicode 字符序列，因此可以像其他序列（例如列表和元组）一样对待：</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">69</span>]: s <span class="op">=</span> <span class="st">"python"</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">70</span>]: <span class="bu">list</span>(s)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">70</span>]: [<span class="st">'p'</span>, <span class="st">'y'</span>, <span class="st">'t'</span>, <span class="st">'h'</span>, <span class="st">'o'</span>, <span class="st">'n'</span>]</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">71</span>]: s[:<span class="dv">3</span>]</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">71</span>]: <span class="st">'pyt'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>语法 <code>s[:3]</code> 称为<em>切片（slicing）</em>，并为多种 Python 序列实现。稍后将对此进行更详细的解释，因为它在本书中被广泛使用。</p>
+<p>反斜杠字符 <code>\</code> 是转义字符，这意味着它用于指定特殊字符，例如换行符 <code>\n</code> 或 Unicode 字符。要编写带有反斜杠的字符串文字，您需要对它们进行转义：</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">72</span>]: s <span class="op">=</span> <span class="st">"12</span><span class="ch">\\</span><span class="st">34"</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">73</span>]: <span class="bu">print</span>(s)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span>\<span class="dv">34</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>如果您的字符串包含很多反斜杠并且没有特殊字符，您可能会发现这有点烦人。幸运的是，您可以在字符串的前导引号前添加 <code>r</code>，这意味着字符应按原样解释：</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">74</span>]: s <span class="op">=</span> <span class="vs">r"this\has\no\special\characters"</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">75</span>]: s</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">75</span>]: <span class="st">'this</span><span class="ch">\\</span><span class="st">has</span><span class="ch">\\</span><span class="st">no</span><span class="ch">\\</span><span class="st">special</span><span class="ch">\\</span><span class="st">characters'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>r</code> 代表<em>原始（raw）</em>。</p>
+<p>将两个字符串相加会将它们连接起来并生成一个新字符串：</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">76</span>]: a <span class="op">=</span> <span class="st">"this is the first half "</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">77</span>]: b <span class="op">=</span> <span class="st">"and this is the second half"</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">78</span>]: a <span class="op">+</span> b</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">78</span>]: <span class="st">'this is the first half and this is the second half'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>字符串模板或格式化是另一个重要主题。随着 Python 3 的出现，实现此目的的方法数量不断增加，在这里我将简要描述其中一个主要接口的机制。字符串对象有一个 <code>format</code> 方法，可用于将格式化参数替换为字符串，生成一个新字符串：</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">79</span>]: template <span class="op">=</span> <span class="st">"</span><span class="sc">{0:.2f}</span><span class="st"> </span><span class="sc">{1:s}</span><span class="st"> are worth US$</span><span class="sc">{2:d}</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在这个字符串中：</p>
+<ul>
+<li><code>{0:.2f}</code> 表示将第一个参数格式化为具有两位小数的浮点数。</li>
+<li><code>{1:s}</code> 表示将第二个参数格式化为字符串。</li>
+<li><code>{2:d}</code> 表示将第三个参数格式化为精确整数。</li>
+</ul>
+<p>为了替换这些格式参数的参数，我们将一系列参数传递给 <code>format</code> 方法：</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">80</span>]: template.<span class="bu">format</span>(<span class="fl">88.46</span>, <span class="st">"Argentine Pesos"</span>, <span class="dv">1</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">80</span>]: <span class="st">'88.46 Argentine Pesos are worth US$1'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python 3.6 引入了一个名为 <em>f-strings</em>（格式化字符串文字的缩写）的新功能，它可以使创建格式化字符串变得更加方便。要创建 <em>f-strings</em>，请在字符串文字前面写入字符 <code>f</code>。在字符串中，将 Python 表达式括在大括号中，以将表达式的值替换为格式化字符串：</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">81</span>]: amount <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">82</span>]: rate <span class="op">=</span> <span class="fl">88.46</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">83</span>]: currency <span class="op">=</span> <span class="st">"Pesos"</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">84</span>]: result <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>amount<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>currency<span class="sc">}</span><span class="ss"> is worth US$</span><span class="sc">{</span>amount <span class="op">/</span> rate<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>可以使用与上面的字符串模板相同的语法在每个表达式之后添加格式说明符：</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">85</span>]: <span class="ss">f"</span><span class="sc">{</span>amount<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>currency<span class="sc">}</span><span class="ss"> is worth US$</span><span class="sc">{</span>amount <span class="op">/</span> rate<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">85</span>]: <span class="st">'10 Pesos is worth US$0.11'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>字符串格式化是一个深奥的话题；有多种方法和大量选项和调整可用于控制结果字符串中值的格式。要了解更多信息，请查阅 <a href="https://docs.python.org/3/library/string.html">official Python documentation</a>。</p>
+<p><strong>Bytes and Unicode</strong></p>
+<p>在现代 Python（即 Python 3.0 及更高版本）中，Unicode 已成为一流的字符串类型，可以更一致地处理 ASCII 和 non-ASCII 文本。在旧版本的 Python 中，字符串都是字节，没有任何显式的 Unicode 编码。假设您知道字符编码，则可以转换为 Unicode。下面是一个包含非 ASCII 字符的 Unicode 字符串示例：</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">86</span>]: val <span class="op">=</span> <span class="st">"español"</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">87</span>]: val</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">87</span>]: <span class="st">'español'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>我们可以使用 <code>encode</code> 方法将此 Unicode 字符串转换为其 UTF-8 字节表示形式：</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">88</span>]: val_utf8 <span class="op">=</span> val.encode(<span class="st">"utf-8"</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">89</span>]: val_utf8</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">89</span>]: <span class="st">b'espa</span><span class="ch">\xc3\xb1</span><span class="st">ol'</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">90</span>]: <span class="bu">type</span>(val_utf8)</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">90</span>]: <span class="bu">bytes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>假设您知道 <code>bytes</code> 对象的 Unicode 编码，您可以使用 <code>decode</code> 方法返回：</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">91</span>]: val_utf8.decode(<span class="st">"utf-8"</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">91</span>]: <span class="st">'español'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>虽然现在最好对任何编码使用 UTF-8，但由于历史原因，您可能会遇到多种不同编码的数据：</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">92</span>]: val.encode(<span class="st">"latin1"</span>)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">92</span>]: <span class="st">b'espa</span><span class="ch">\xf1</span><span class="st">ol'</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">93</span>]: val.encode(<span class="st">"utf-16"</span>)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">93</span>]: <span class="st">b'</span><span class="ch">\xff\xfe</span><span class="st">e</span><span class="ch">\x00</span><span class="st">s</span><span class="ch">\x00</span><span class="st">p</span><span class="ch">\x00</span><span class="st">a</span><span class="ch">\x00\xf1\x00</span><span class="st">o</span><span class="ch">\x00</span><span class="st">l</span><span class="ch">\x00</span><span class="st">'</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">94</span>]: val.encode(<span class="st">"utf-16le"</span>)</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">94</span>]: <span class="st">b'e</span><span class="ch">\x00</span><span class="st">s</span><span class="ch">\x00</span><span class="st">p</span><span class="ch">\x00</span><span class="st">a</span><span class="ch">\x00\xf1\x00</span><span class="st">o</span><span class="ch">\x00</span><span class="st">l</span><span class="ch">\x00</span><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在处理文件的上下文中最常见的是遇到 <code>bytes</code> 对象，其中可能不需要将所有数据隐式解码为 Unicode 字符串。</p>
+<p><strong>Booleans</strong></p>
+<p>Python 中的两个布尔值分别写为 <code>True</code> 和 <code>False</code>。比较和其他条件表达式的计算结果为 <code>True</code> 或 <code>False</code>。布尔值与 <code>and</code> 和 <code>or</code> 关键字组合：</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">95</span>]: <span class="va">True</span> <span class="kw">and</span> <span class="va">True</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">95</span>]: <span class="va">True</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">96</span>]: <span class="va">False</span> <span class="kw">or</span> <span class="va">True</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">96</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>转换为数字时，<code>False</code> 变为 <code>0</code>，<code>True</code> 变为 <code>1</code>：</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">97</span>]: <span class="bu">int</span>(<span class="va">False</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">97</span>]: <span class="dv">0</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">98</span>]: <span class="bu">int</span>(<span class="va">True</span>)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">98</span>]: <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>该关键字 <code>not</code> 会将布尔值从 <code>True</code> 翻转为 <code>False</code>，反之亦然：</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">99</span>]: a <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">100</span>]: b <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">101</span>]: <span class="kw">not</span> a</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">101</span>]: <span class="va">False</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">102</span>]: <span class="kw">not</span> b</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">102</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Type casting</strong></p>
+<p><code>str</code>、<code>bool</code>、<code>int</code> 和 <code>float</code> 类型也是可用于将值转换为这些类型的函数：</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">103</span>]: s <span class="op">=</span> <span class="st">"3.14159"</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">104</span>]: fval <span class="op">=</span> <span class="bu">float</span>(s)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">105</span>]: <span class="bu">type</span>(fval)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">105</span>]: <span class="bu">float</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">106</span>]: <span class="bu">int</span>(fval)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">106</span>]: <span class="dv">3</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">107</span>]: <span class="bu">bool</span>(fval)</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">107</span>]: <span class="va">True</span></span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">108</span>]: <span class="bu">bool</span>(<span class="dv">0</span>)</span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">108</span>]: <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>请注意，大多数非零值在转换为 <code>bool</code> 时会变为 <code>True</code>。</p>
+<p><strong>None</strong></p>
+<p><code>None</code> 是 Python 空值类型：</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">109</span>]: a <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">110</span>]: a <span class="kw">is</span> <span class="va">None</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">110</span>]: <span class="va">True</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">111</span>]: b <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">112</span>]: b <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">112</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>None</code> 也是函数参数的常见默认值：</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_and_maybe_multiply(a, b, c<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> a <span class="op">+</span> b</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> result <span class="op">*</span> c</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Dates and times</strong></p>
+<p>内置的 Python <code>datetime</code> 模块提供了 <code>datetime</code>、<code>date</code> 和 <code>time</code> 类型。<code>datetime</code> 类型结合了 <code>date</code> 和 <code>time</code> 存储的信息，最常用：</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">113</span>]: <span class="im">from</span> datetime <span class="im">import</span> datetime, date, time</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">114</span>]: dt <span class="op">=</span> datetime(<span class="dv">2011</span>, <span class="dv">10</span>, <span class="dv">29</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">21</span>)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">115</span>]: dt.day</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">115</span>]: <span class="dv">29</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">116</span>]: dt.minute</span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">116</span>]: <span class="dv">30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>给定一个 <code>datetime</code> 实例，您可以通过调用 <code>datetime</code> 上同名的方法来提取等效的 <code>date</code> 和 <code>time</code> 对象：</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">117</span>]: dt.date()</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">117</span>]: datetime.date(<span class="dv">2011</span>, <span class="dv">10</span>, <span class="dv">29</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">118</span>]: dt.time()</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">118</span>]: datetime.time(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>strftime</code> 方法将 <code>datetime</code> 格式化为字符串：</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">119</span>]: dt.strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st"> %H:%M"</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">119</span>]: <span class="st">'2011-10-29 20:30'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>有关格式规范的完整列表，请参阅 <a href="https://wesmckinney.com/book/time-series#tbl-table_datetime_formatting">Table 11.2</a>。</p>
+<p>当您聚合或以其他方式对时间序列数据进行分组时，替换一系列日期时间的 <code>datetime</code> 字段有时会很有用，例如，将 <code>minute</code> 和 <code>second</code> 字段替换为零：</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">121</span>]: dt_hour <span class="op">=</span> dt.replace(minute<span class="op">=</span><span class="dv">0</span>, second<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">122</span>]: dt_hour</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">122</span>]: datetime.datetime(<span class="dv">2011</span>, <span class="dv">10</span>, <span class="dv">29</span>, <span class="dv">20</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>由于 <code>datetime.datetime</code> 是不可变类型，因此此类方法总是会生成新对象。所以在前面的例子中，<code>dt</code> 并没有被 <code>replace</code> 修改：</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">123</span>]: dt</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">123</span>]: datetime.datetime(<span class="dv">2011</span>, <span class="dv">10</span>, <span class="dv">29</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>两个 <code>datetime</code> 对象的差异产生 <code>datetime.timedelta</code> 类型：</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">124</span>]: dt2 <span class="op">=</span> datetime(<span class="dv">2011</span>, <span class="dv">11</span>, <span class="dv">15</span>, <span class="dv">22</span>, <span class="dv">30</span>)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">125</span>]: delta <span class="op">=</span> dt2 <span class="op">-</span> dt</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">126</span>]: delta</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">126</span>]: datetime.timedelta(days<span class="op">=</span><span class="dv">17</span>, seconds<span class="op">=</span><span class="dv">7179</span>)</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">127</span>]: <span class="bu">type</span>(delta)</span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">127</span>]: datetime.timedelta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出 <code>timedelta(17, 7179)</code> 表示 <code>timedelta</code> 编码了 17 天 7,179 秒的偏移量。</p>
+<p>将 <code>timedelta</code> 添加到 <code>datetime</code> 会产生新的移位日期时间：</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">128</span>]: dt</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">128</span>]: datetime.datetime(<span class="dv">2011</span>, <span class="dv">10</span>, <span class="dv">29</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">21</span>)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">129</span>]: dt <span class="op">+</span> delta</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">129</span>]: datetime.datetime(<span class="dv">2011</span>, <span class="dv">11</span>, <span class="dv">15</span>, <span class="dv">22</span>, <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="control-flow" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="control-flow"><span class="header-section-number">2.3.3</span> Control Flow</h3>
+<p>Python 有几个内置关键字，用于条件逻辑、循环和其他编程语言中的其他标准控制流概念。</p>
+<p><strong>if, elif, and else</strong></p>
+<p><code>if</code> 语句是最著名的控制流语句类型之一。它检查一个条件，如果为 <code>True</code>，则评估后面块中的代码：</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="op">-</span><span class="dv">5</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's negative"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>如果所有条件都为 <code>False</code>，则 <code>if</code> 语句后面可以选择跟随一个或多个 <code>elif</code> 块以及一个包罗万象的 <code>else</code> 块：</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's negative"</span>)</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Equal to zero"</span>)</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="dv">0</span> <span class="op">&lt;</span> x <span class="op">&lt;</span> <span class="dv">5</span>:</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Positive but smaller than 5"</span>)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Positive and larger than or equal to 5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>如果任何条件为 <code>True</code>，则不会再到达 <code>elif</code> 或 <code>else</code> 块。对于使用 <code>and</code> 或 <code>or</code> 的复合条件，条件从左到右计算并且会短路：</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">130</span>]: a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> b <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">131</span>]: c <span class="op">=</span> <span class="dv">8</span><span class="op">;</span> d <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">132</span>]: <span class="cf">if</span> a <span class="op">&lt;</span> b <span class="kw">or</span> c <span class="op">&gt;</span> d:</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>   .....:     <span class="bu">print</span>(<span class="st">"Made it"</span>)</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>Made it</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>在此示例中，比较 <code>c &gt; d</code> 永远不会被计算，因为第一个比较为 <code>True</code>。</p>
+<p>也可以进行链式比较：</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">133</span>]: <span class="dv">4</span> <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">&gt;</span> <span class="dv">2</span> <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">133</span>]: <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>for loops</strong></p>
+<p><code>for</code> 循环用于迭代集合（如列表或元组）或迭代器。<code>for</code> 循环的标准语法是：</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> value <span class="kw">in</span> collection:</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do something with value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>您可以使用 <code>continue</code> 关键字将 <code>for</code> 循环推进到下一次迭代，跳过块的其余部分。考虑以下代码，它将列表中的整数相加并跳过 <code>None</code> 值：</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>sequence <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>, <span class="va">None</span>, <span class="dv">5</span>]</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> value <span class="kw">in</span> sequence:</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>    total <span class="op">+=</span> value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>可以使用 <code>break</code> 关键字一起退出 <code>for</code> 循环。此代码对列表中的元素求和，直到达到 5：</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>sequence <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>total_until_5 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> value <span class="kw">in</span> sequence:</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="op">==</span> <span class="dv">5</span>:</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>    total_until_5 <span class="op">+=</span> value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>break</code> 关键字仅终止最内层的 <code>for</code> 循环；任何外部 <code>for</code> 循环将继续运行：</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">134</span>]: <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>   .....:     <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>   .....:         <span class="cf">if</span> j <span class="op">&gt;</span> i:</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>   .....:             <span class="cf">break</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>   .....:         <span class="bu">print</span>((i, j))</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>   .....:</span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>(<span class="dv">3</span>, <span class="dv">0</span>)</span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>(<span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>(<span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>(<span class="dv">3</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>正如我们将更详细地看到的，如果集合或迭代器中的元素是序列（例如元组或列表），则可以方便地将它们解包到 <code>for</code> 循环语句中的变量中：</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, b, c <span class="kw">in</span> iterator:</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>while loops</strong></p>
+<p><code>while</code> 循环指定一个条件和一个要执行的代码块，直到条件计算结果为 <code>False</code> 或循环以 <code>break</code> 显式结束：</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">256</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> total <span class="op">&gt;</span> <span class="dv">500</span>:</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>    total <span class="op">+=</span> x</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x <span class="op">//</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>pass</strong></p>
+<p><code>pass</code> 是 Python 中的“no-op”（或“不执行任何操作”）语句。它可以用在不采取任何操作的块中（或者作为尚未实现的代码的占位符）；它是必需的，只是因为 Python 使用空格来分隔块：</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"negative!"</span>)</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> x <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: put something smart here</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"positive!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>range</strong></p>
+<p><code>range</code> 函数生成均匀间隔的整数序列：</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">135</span>]: <span class="bu">range</span>(<span class="dv">10</span>)</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">135</span>]: <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">136</span>]: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">10</span>))</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">136</span>]: [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>可以给出开始、结束和步骤（可能是负数）：</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">137</span>]: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">2</span>))</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">137</span>]: [<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>, <span class="dv">18</span>]</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">138</span>]: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="dv">138</span>]: [<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>正如您所看到的，<code>range</code> 生成直到但不包括端点的整数。<code>range</code> 的常见用途是按索引迭代序列：</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">139</span>]: seq <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">140</span>]: <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(seq)):</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>   .....:     <span class="bu">print</span>(<span class="ss">f"element </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>seq[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>element <span class="dv">0</span>: <span class="dv">1</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>element <span class="dv">1</span>: <span class="dv">2</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>element <span class="dv">2</span>: <span class="dv">3</span></span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>element <span class="dv">3</span>: <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>虽然您可以使用 <code>list</code> 等函数将 <code>range</code> 生成的所有整数存储在其他数据结构中，但通常默认的迭代器形式就是您想要的。此代码片段将 0 到 99,999 之间所有 3 或 5 的倍数的数字相加：</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">141</span>]: total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">142</span>]: <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100_000</span>):</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>   .....:     <span class="co"># % is the modulo operator</span></span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>   .....:     <span class="cf">if</span> i <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> i <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>   .....:         total <span class="op">+=</span> i</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>In [<span class="dv">143</span>]: <span class="bu">print</span>(total)</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a><span class="dv">2333316668</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>虽然生成的范围可以任意大，但任何给定时间的内存使用量可能非常小。</p>
+</section>
+</section>
+<section id="conclusion" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">2.4</span> Conclusion</h2>
+<p>本章简要介绍了一些基本的 Python 语言概念以及 IPython 和 Jupyter 编程环境。在下一章中，我将讨论许多内置数据类型、函数和输入输出实用程序，这些内容将在本书的其余部分中不断使用。</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ZhengTiger\.github\.io\/pydata-book-zh-cn\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01.preliminaries.html" class="pagination-link" aria-label="Preliminaries">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preliminaries</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhengTiger/pydata-book-zh-cn/edit/main/02.python-basics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhengTiger/pydata-book-zh-cn/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
