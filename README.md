@@ -6,7 +6,7 @@ Try to translate Python for Data Analysis (the third edition) into Simplified Ch
 
 -   **Original Book**: [pydata-book](https://wesmckinney.com/book)
 
--   **Translation Book**: [pydata-book-zh-cn](https://ZhengTiger.github.io/r4ds-zh-cn/)
+-   **Translation Book**: [pydata-book-zh-cn](https://ZhengTiger.github.io/pydata-book-zh-cn/)
 
 ## Translation progress
 
