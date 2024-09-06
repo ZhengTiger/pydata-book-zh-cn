@@ -19,5 +19,8 @@
   },
   "03.python-builtin.qmd": {
     "03.python-builtin.html": "fbab55f3"
+  },
+  "04.numpy-basics.qmd": {
+    "04.numpy-basics.html": "620b5fc6"
   }
 }

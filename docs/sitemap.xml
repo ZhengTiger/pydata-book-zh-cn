@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/index.html</loc>
+    <lastmod>2024-09-05T09:21:10.855Z</lastmod>
+  </url>
+  <url>
     <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/01.preliminaries.html</loc>
     <lastmod>2024-09-04T11:29:09.826Z</lastmod>
   </url>
@@ -9,11 +13,11 @@
     <lastmod>2024-09-05T09:01:28.533Z</lastmod>
   </url>
   <url>
-    <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/index.html</loc>
-    <lastmod>2024-09-05T09:21:10.855Z</lastmod>
+    <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/03.python-builtin.html</loc>
+    <lastmod>2024-09-06T08:14:53.829Z</lastmod>
   </url>
   <url>
-    <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/03.python-builtin.html</loc>
-    <lastmod>2024-09-06T08:11:10.447Z</lastmod>
+    <loc>https://ZhengTiger.github.io/pydata-book-zh-cn/04.numpy-basics.html</loc>
+    <lastmod>2024-09-06T12:35:02.680Z</lastmod>
   </url>
 </urlset>
