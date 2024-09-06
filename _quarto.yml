@@ -18,7 +18,7 @@ book:
     chapters: 
     - 01.preliminaries.qmd
     - 02.python-basics.qmd
-
+    - 03.python-builtin.qmd
 
 bibliography: references.bib
 

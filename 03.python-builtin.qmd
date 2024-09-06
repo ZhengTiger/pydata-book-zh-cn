@@ -1,0 +1,1800 @@
+# Built-In Data Structures, Functions, and Files
+
+本章讨论 Python 语言中内置的功能，这些功能将在本书中普遍使用。虽然 pandas 和 NumPy 等附加库为更大的数据集添加了高级计算功能，但它们旨在与 Python 的内置数据操作工具一起使用。
+
+我们将从 Python 的主力数据结构开始：元组（tuples）、列表（lists）、字典（dictionaries）和集合（sets）。然后，我们将讨论创建您自己的可重用 Python 函数。最后，我们将了解 Python 文件对象以及与本地硬盘交互的机制。
+
+
+
+## Data Structures and Sequences
+
+Python 的数据结构简单但功能强大。掌握它们的使用是成为熟练的 Python 程序员的关键部分。我们从元组、列表和字典开始，它们是一些最常用的序列类型。
+
+
+### Tuple
+
+*元组（tuples）*是固定长度、不可变的 Python 对象序列，一旦分配就无法更改。创建一个最简单的方法是使用括号中的逗号分隔值序列：
+
+```python
+In [2]: tup = (4, 5, 6)
+
+In [3]: tup
+Out[3]: (4, 5, 6)
+```
+
+在许多情况下，括号可以省略，所以这里我们也可以写成：
+
+```python
+In [4]: tup = 4, 5, 6
+
+In [5]: tup
+Out[5]: (4, 5, 6)
+```
+
+您可以通过调用 `tuple` 将任何序列或迭代器转换为元组：
+
+```python
+In [6]: tuple([4, 0, 2])
+Out[6]: (4, 0, 2)
+
+In [7]: tup = tuple('string')
+
+In [8]: tup
+Out[8]: ('s', 't', 'r', 'i', 'n', 'g')
+```
+
+与大多数其他序列类型一样，可以使用方括号 `[]` 访问元素。与 C、C++、Java 和许多其他语言一样，序列在 Python 中是从 0 索引的：
+
+```python
+In [9]: tup[0]
+Out[9]: 's'
+```
+
+当您在更复杂的表达式中定义元组时，通常需要将值括在括号中，如创建元组的元组的示例所示：
+
+```python
+In [10]: nested_tup = (4, 5, 6), (7, 8)
+
+In [11]: nested_tup
+Out[11]: ((4, 5, 6), (7, 8))
+
+In [12]: nested_tup[0]
+Out[12]: (4, 5, 6)
+
+In [13]: nested_tup[1]
+Out[13]: (7, 8)
+```
+
+虽然存储在元组中的对象本身可能是可变的，但一旦创建元组，就无法修改每个槽中存储的对象：
+
+```python
+In [14]: tup = tuple(['foo', [1, 2], True])
+
+In [15]: tup[2] = False
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-15-b89d0c4ae599> in <module>
+----> 1 tup[2] = False
+TypeError: 'tuple' object does not support item assignment
+```
+
+如果元组内的对象是可变的，例如列表，您可以就地修改它：
+
+```python
+In [16]: tup[1].append(3)
+
+In [17]: tup
+Out[17]: ('foo', [1, 2, 3], True)
+```
+
+您可以使用 `+` 运算符连接元组以生成更长的元组：
+
+```python
+In [18]: (4, None, 'foo') + (6, 0) + ('bar',)
+Out[18]: (4, None, 'foo', 6, 0, 'bar')
+```
+
+与列表一样，将元组乘以整数会产生连接元组的多个副本的效果：
+
+```python
+In [19]: ('foo', 'bar') * 4
+Out[19]: ('foo', 'bar', 'foo', 'bar', 'foo', 'bar', 'foo', 'bar')
+```
+
+请注意，对象本身不会被复制，只会复制对它们的引用。
+
+**Unpacking tuples（元组拆包）**
+
+如果您尝试分配给类似元组的变量表达式，Python 将尝试*拆包（unpack）*等号右侧的值：
+
+```python
+In [20]: tup = (4, 5, 6)
+
+In [21]: a, b, c = tup
+
+In [22]: b
+Out[22]: 5
+```
+
+即使是带有嵌套元组的序列也可以被拆包：
+
+```python
+In [23]: tup = 4, 5, (6, 7)
+
+In [24]: a, b, (c, d) = tup
+
+In [25]: d
+Out[25]: 7
+```
+
+使用此功能，您可以轻松交换变量名称，这项任务在许多语言中可能如下所示：
+
+```python
+tmp = a
+a = b
+b = tmp
+```
+
+但是，在 Python 中，交换可以这样完成：
+
+```python
+In [26]: a, b = 1, 2
+
+In [27]: a
+Out[27]: 1
+
+In [28]: b
+Out[28]: 2
+
+In [29]: b, a = a, b
+
+In [30]: a
+Out[30]: 2
+
+In [31]: b
+Out[31]: 1
+```
+
+变量拆包的常见用途是迭代元组或列表的序列：
+
+```python
+In [32]: seq = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
+
+In [33]: for a, b, c in seq:
+   ....:     print(f'a={a}, b={b}, c={c}')
+a=1, b=2, c=3
+a=4, b=5, c=6
+a=7, b=8, c=9
+```
+
+另一个常见用途是从函数返回多个值。稍后我将更详细地介绍这一点。
+
+在某些情况下，您可能希望从元组的开头“提取”一些元素。有一种特殊的语法可以做到这一点，`*rest`，它也用在函数签名中来捕获任意长的位置参数列表：
+
+```python
+In [34]: values = 1, 2, 3, 4, 5
+
+In [35]: a, b, *rest = values
+
+In [36]: a
+Out[36]: 1
+
+In [37]: b
+Out[37]: 2
+
+In [38]: rest
+Out[38]: [3, 4, 5]
+```
+
+这个 `rest` 部分有时是你想要丢弃的东西；`rest` 名称没有什么特别的。按照惯例，许多 Python 程序员会使用下划线 (`_`) 来表示不需要的变量：
+
+```python
+In [39]: a, b, *_ = values
+```
+
+**Tuple methods**
+
+由于元组的大小和内容无法修改，因此实例方法非常简单。一个特别有用的方法（也可用于列表）是 `count`，它计算某个值出现的次数：
+
+```python
+In [40]: a = (1, 2, 2, 2, 3, 4, 2)
+
+In [41]: a.count(2)
+Out[41]: 4
+```
+
+
+### List
+
+与元组相比，列表（lists）是可变长度的，并且可以就地修改其内容。列表是可变的。您可以使用方括号 `[]` 或使用 `list` 类型函数来定义它们：
+
+```python
+In [42]: a_list = [2, 3, 7, None]
+
+In [43]: tup = ("foo", "bar", "baz")
+
+In [44]: b_list = list(tup)
+
+In [45]: b_list
+Out[45]: ['foo', 'bar', 'baz']
+
+In [46]: b_list[1] = "peekaboo"
+
+In [47]: b_list
+Out[47]: ['foo', 'peekaboo', 'baz']
+```
+
+列表和元组在语义上相似（尽管元组不能修改）并且可以在许多函数中互换使用。
+
+`list` 内置函数在数据处理中经常使用，作为具体化迭代器或生成器表达式的一种方式：
+
+```python
+In [48]: gen = range(10)
+
+In [49]: gen
+Out[49]: range(0, 10)
+
+In [50]: list(gen)
+Out[50]: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+**Adding and removing elements（添加和删​​除元素）**
+
+可以使用 `append` 方法将元素追加到列表的末尾：
+
+```python
+In [51]: b_list.append("dwarf")
+
+In [52]: b_list
+Out[52]: ['foo', 'peekaboo', 'baz', 'dwarf']
+```
+
+使用 `insert` 可以在列表中的特定位置插入元素：
+
+```python
+In [53]: b_list.insert(1, "red")
+
+In [54]: b_list
+Out[54]: ['foo', 'red', 'peekaboo', 'baz', 'dwarf']
+```
+
+插入索引必须介于 0 和列表长度（含）之间。
+
+::: {.callout-warning}
+与 `append` 相比，`insert` 的计算成本较高，因为必须在内部移动对后续元素的引用，以便为新元素腾出空间。如果您需要在序列的开头和结尾插入元素，您可能希望探索 `collections.deque`，这是一个双端队列，它为此目的进行了优化，可以在 Python 标准库中找到。
+:::
+
+`insert` 的逆操作是 `pop`，它删除并返回特定索引处的元素：
+
+```python
+In [55]: b_list.pop(2)
+Out[55]: 'peekaboo'
+
+In [56]: b_list
+Out[56]: ['foo', 'red', 'baz', 'dwarf']
+```
+
+可以使用 `remove` 按值删除元素，它找到第一个这样的值并将其从列表中删除：
+
+```python
+In [57]: b_list.append("foo")
+
+In [58]: b_list
+Out[58]: ['foo', 'red', 'baz', 'dwarf', 'foo']
+
+In [59]: b_list.remove("foo")
+
+In [60]: b_list
+Out[60]: ['red', 'baz', 'dwarf', 'foo']
+```
+
+如果性能不是问题，通过使用 `append` 和 `remove`，您可以使用 Python 列表作为类似集合的数据结构（尽管 Python 有实际的集合对象，稍后讨论）。
+
+使用 `in` 关键字检查列表是否包含值：
+
+```python
+In [61]: "dwarf" in b_list
+Out[61]: True
+```
+
+关键字 `not` 可用于否定 `in`：
+
+```python
+In [62]: "dwarf" not in b_list
+Out[62]: False
+```
+
+检查列表是否包含值比使用字典和集合（稍后介绍）慢很多，因为 Python 对列表的值进行线性扫描，而它可以检查其他值（基于哈希表）在恒定的时间内。
+
+**Concatenating and combining lists（连接和组合列表）**
+
+与元组类似，使用 `+` 将两个列表添加在一起将它们连接起来：
+
+```python
+In [63]: [4, None, "foo"] + [7, 8, (2, 3)]
+Out[63]: [4, None, 'foo', 7, 8, (2, 3)]
+```
+
+如果您已经定义了一个列表，则可以使用 `extend` 方法向其附加多个元素：
+
+```python
+In [64]: x = [4, None, "foo"]
+
+In [65]: x.extend([7, 8, (2, 3)])
+
+In [66]: x
+Out[66]: [4, None, 'foo', 7, 8, (2, 3)]
+```
+
+请注意，通过加法进行列表串联是一项相对昂贵的操作，因为必须创建新列表并复制对象。使用 `extend` 将元素追加到现有列表中，尤其是在构建大型列表时，通常更可取。因此：
+
+```python
+everything = []
+for chunk in list_of_lists:
+    everything.extend(chunk)
+```
+
+比串联替代方案更快：
+
+```python
+everything = []
+for chunk in list_of_lists:
+    everything = everything + chunk
+```
+
+**Sorting（排序）**
+
+您可以通过调用其 `sort` 函数对列表进行就地排序（无需创建新对象）：
+
+```python
+In [67]: a = [7, 2, 5, 1, 3]
+
+In [68]: a.sort()
+
+In [69]: a
+Out[69]: [1, 2, 3, 5, 7]
+```
+
+`sort` 有一些偶尔会派上用场的选项。一是能够传递辅助排序键，即生成用于对对象进行排序的值的函数。例如，我们可以按字符串的长度对字符串集合进行排序：
+
+```python
+In [70]: b = ["saw", "small", "He", "foxes", "six"]
+
+In [71]: b.sort(key=len)
+
+In [72]: b
+Out[72]: ['He', 'saw', 'six', 'small', 'foxes']
+```
+
+很快，我们将看到 `sorted` 函数，它可以生成一般序列的排序副本。
+
+**Slicing（切片）**
+
+您可以使用切片表示法来选择大多数序列类型的部分，其基本形式由传递给索引运算符 `[]` 的 `start:stop` 组成：
+
+```python
+In [73]: seq = [7, 2, 3, 7, 5, 6, 0, 1]
+
+In [74]: seq[1:5]
+Out[74]: [2, 3, 7, 5]
+```
+
+切片也可以分配一个序列：
+
+```python
+In [75]: seq[3:5] = [6, 3]
+
+In [76]: seq
+Out[76]: [7, 2, 3, 6, 3, 6, 0, 1]
+```
+
+虽然包含 `start` 索引处的元素，但不包含 `stop` 索引处的元素，因此结果中的元素数量为 `stop - start`。
+
+`start` 或 `stop` 都可以省略，在这种情况下，它们分别默认为序列的开始和序列的结束：
+
+```python
+In [77]: seq[:5]
+Out[77]: [7, 2, 3, 6, 3]
+
+In [78]: seq[3:]
+Out[78]: [6, 3, 6, 0, 1]
+```
+
+负索引相对于末尾对序列进行切片：
+
+```python
+In [79]: seq[-4:]
+Out[79]: [3, 6, 0, 1]
+
+In [80]: seq[-6:-2]
+Out[80]: [3, 6, 3, 6]
+```
+
+切片语义需要一些时间来适应，特别是如果您来自 R 或 MATLAB。请参阅 [Figure 3.1](https://wesmckinney.com/book/python-builtin#fig-figure_seq_slicing)，了解使用正整数和负整数进行切片的有用说明。在图中，索引显示在“bin 边缘”，以帮助显示使用正索引或负索引开始和停止切片选择的位置。
+
+![Figure 3.1: Illustration of Python slicing conventions](https://wesmckinney.com/book/images/pda3_0301.png)
+
+还可以在第二个冒号之后使用步骤来获取所有其他元素：
+
+```python
+In [81]: seq[::2]
+Out[81]: [7, 3, 3, 0]
+```
+
+一个巧妙的用法是传递 `-1`，它具有反转列表或元组的有用效果：
+
+```python
+In [82]: seq[::-1]
+Out[82]: [1, 0, 6, 3, 6, 3, 2, 7]
+```
+
+
+### Dictionary
+
+字典或 `dict` 可能是最重要的内置 Python 数据结构。在其他编程语言中，字典有时称为哈希映射或关联数组。字典存储键值对的集合，其中键和值是 Python 对象。每个键都与一个值相关联，以便在给定特定键的情况下可以方便地检索、插入、修改或删除值。创建字典的一种方法是使用大括号 `{}` 和冒号来分隔键和值：
+
+```python
+In [83]: empty_dict = {}
+
+In [84]: d1 = {"a": "some value", "b": [1, 2, 3, 4]}
+
+In [85]: d1
+Out[85]: {'a': 'some value', 'b': [1, 2, 3, 4]}
+```
+
+您可以使用与访问列表或元组元素相同的语法来访问、插入或设置元素：
+
+```python
+In [86]: d1[7] = "an integer"
+
+In [87]: d1
+Out[87]: {'a': 'some value', 'b': [1, 2, 3, 4], 7: 'an integer'}
+
+In [88]: d1["b"]
+Out[88]: [1, 2, 3, 4]
+```
+
+您可以使用与检查列表或元组是否包含值相同的语法来检查字典是否包含键：
+
+```python
+In [89]: "b" in d1
+Out[89]: True
+```
+
+您可以使用 `del` 关键字或 `pop` 方法（同时返回值并删除键）来删除值：
+
+```python
+In [90]: d1[5] = "some value"
+
+In [91]: d1
+Out[91]: 
+{'a': 'some value',
+ 'b': [1, 2, 3, 4],
+ 7: 'an integer',
+ 5: 'some value'}
+
+In [92]: d1["dummy"] = "another value"
+
+In [93]: d1
+Out[93]: 
+{'a': 'some value',
+ 'b': [1, 2, 3, 4],
+ 7: 'an integer',
+ 5: 'some value',
+ 'dummy': 'another value'}
+
+In [94]: del d1[5]
+
+In [95]: d1
+Out[95]: 
+{'a': 'some value',
+ 'b': [1, 2, 3, 4],
+ 7: 'an integer',
+ 'dummy': 'another value'}
+
+In [96]: ret = d1.pop("dummy")
+
+In [97]: ret
+Out[97]: 'another value'
+
+In [98]: d1
+Out[98]: {'a': 'some value', 'b': [1, 2, 3, 4], 7: 'an integer'}
+```
+
+`keys` 和 `values` 方法分别为您提供字典的键和值的迭代器。键的顺序取决于它们的插入顺序，这些函数以相同的顺序输出键和值：
+
+```python
+In [99]: list(d1.keys())
+Out[99]: ['a', 'b', 7]
+
+In [100]: list(d1.values())
+Out[100]: ['some value', [1, 2, 3, 4], 'an integer']
+```
+
+如果需要迭代键和值，可以使用 `items` 方法将键和值作为 2-元组进行迭代：
+
+```python
+In [101]: list(d1.items())
+Out[101]: [('a', 'some value'), ('b', [1, 2, 3, 4]), (7, 'an integer')]
+```
+
+您可以使用 `update` 方法将一个字典合并到另一个字典中：
+
+```python
+In [102]: d1.update({"b": "foo", "c": 12})
+
+In [103]: d1
+Out[103]: {'a': 'some value', 'b': 'foo', 7: 'an integer', 'c': 12}
+```
+
+`update` 方法会就地更改字典，因此传递给 `update` 的数据中的任何现有键都将丢弃其旧值。
+
+**Creating dictionaries from sequences（从序列创建字典）**
+
+偶尔会出现想要在字典中按元素配对的两个序列，这是很常见的。作为第一步，您可能会编写如下代码：
+
+```python
+mapping = {}
+for key, value in zip(key_list, value_list):
+    mapping[key] = value
+```
+
+由于字典本质上是 2-元组的集合，因此 `dict` 函数接受 2-元组列表：
+
+```python
+In [104]: tuples = zip(range(5), reversed(range(5)))
+
+In [105]: tuples
+Out[105]: <zip at 0x17d604d00>
+
+In [106]: mapping = dict(tuples)
+
+In [107]: mapping
+Out[107]: {0: 4, 1: 3, 2: 2, 3: 1, 4: 0}
+```
+
+稍后我们将讨论字典推导式，这是构建字典的另一种方式。
+
+**Default values**
+
+常见的逻辑如下：
+
+```python
+if key in some_dict:
+    value = some_dict[key]
+else:
+    value = default_value
+```
+
+因此，字典方法 `get` 和 `pop` 可以返回一个默认值，这样上面的 `if-else` 块就可以简单地写成：
+
+```python
+value = some_dict.get(key, default_value)
+```
+
+如果键不存在，`get` 默认情况下将返回 `None`，而 `pop` 将引发异常。通过设置值，字典中的值可能是另一种集合，例如列表。例如，您可以想象将单词列表按其首字母分类为列表字典：
+
+```python
+In [108]: words = ["apple", "bat", "bar", "atom", "book"]
+
+In [109]: by_letter = {}
+
+In [110]: for word in words:
+   .....:     letter = word[0]
+   .....:     if letter not in by_letter:
+   .....:         by_letter[letter] = [word]
+   .....:     else:
+   .....:         by_letter[letter].append(word)
+   .....:
+
+In [111]: by_letter
+Out[111]: {'a': ['apple', 'atom'], 'b': ['bat', 'bar', 'book']}
+```
+
+`setdefault` 字典方法可用于简化此工作流程。前面的 `for` 循环可以重写为：
+
+```python
+In [112]: by_letter = {}
+
+In [113]: for word in words:
+   .....:     letter = word[0]
+   .....:     by_letter.setdefault(letter, []).append(word)
+   .....:
+
+In [114]: by_letter
+Out[114]: {'a': ['apple', 'atom'], 'b': ['bat', 'bar', 'book']}
+```
+
+内置的 `collections` 模块有一个有用的类 `defaultdict`，这使得这变得更加容易。要创建一个，您可以传递一个类型或函数来为字典中的每个槽生成默认值：
+
+```python
+In [115]: from collections import defaultdict
+
+In [116]: by_letter = defaultdict(list)
+
+In [117]: for word in words:
+   .....:     by_letter[word[0]].append(word)
+```
+
+**Valid dictionary key types（有效的字典键类型）**
+
+虽然字典的值可以是任何 Python 对象，但键通常必须是不可变对象，例如标量类型（int、float、string）或元组（元组中的所有对象也必须是不可变的）。这里的技术术语是*可哈希性（hashability）*。您可以使用 `hash` 函数检查对象是否可哈希（可以用作字典中的键）：
+
+```python
+In [118]: hash("string")
+Out[118]: 4022908869268713487
+
+In [119]: hash((1, 2, (2, 3)))
+Out[119]: -9209053662355515447
+
+In [120]: hash((1, 2, [2, 3])) # fails because lists are mutable
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-120-473c35a62c0b> in <module>
+----> 1 hash((1, 2, [2, 3])) # fails because lists are mutable
+TypeError: unhashable type: 'list'
+```
+
+通常，您在使用 `hash` 函数时看到的哈希值取决于您所使用的 Python 版本。
+
+要使用列表作为键，一种选择是将其转换为元组，只要它的元素也可以是，就可以对其进行哈希处理：
+
+```python
+In [121]: d = {}
+
+In [122]: d[tuple([1, 2, 3])] = 5
+
+In [123]: d
+Out[123]: {(1, 2, 3): 5}
+```
+
+
+### Set
+
+*集合（set）*是唯一元素的无序集合。可以通过两种方式创建集合：通过 `set` 函数或通过带花括号的集合文字：
+
+```python
+In [124]: set([2, 2, 2, 1, 3, 3])
+Out[124]: {1, 2, 3}
+
+In [125]: {2, 2, 2, 1, 3, 3}
+Out[125]: {1, 2, 3}
+```
+
+集合支持数学集合运算，例如并集、交集、差值和对称差值。考虑这两个示例集：
+
+```python
+In [126]: a = {1, 2, 3, 4, 5}
+
+In [127]: b = {3, 4, 5, 6, 7, 8}
+```
+
+这两个集合的并集是任一集合中出现的不同元素的集合。这可以使用 `union` 方法或 `|` 二元运算符来计算：
+
+```python
+In [128]: a.union(b)
+Out[128]: {1, 2, 3, 4, 5, 6, 7, 8}
+
+In [129]: a | b
+Out[129]: {1, 2, 3, 4, 5, 6, 7, 8}
+```
+
+交集包含两个集合中出现的元素。可以使用 `&` 运算符或 `intersection` 方法：
+
+```python
+In [130]: a.intersection(b)
+Out[130]: {3, 4, 5}
+
+In [131]: a & b
+Out[131]: {3, 4, 5}
+```
+
+有关常用设置方法的列表，请参阅 [Table 3.1](https://wesmckinney.com/book/python-builtin#tbl-table_set_operations)。
+
+| Function | Alternative syntax | Description |
+|:---------|:-----|------:|
+| `a.add(x)` | N/A | 添加元素 `x` 到集合 `a` |
+| `a.clear()` | N/A | 重新设置 `a` 为空状态，丢弃其所有元素 |
+| `a.remove(x)` | N/A | 从集合 `a` 中删除元素 `x` |
+| `a.pop()` | N/A | 从集合 `a` 中删除任意元素，如果集合为空则引发 `KeyError` |
+| `a.union(b)` | `a | b` | `a` 和 `b` 的并集 |
+| `a.update(b)` | `a |= b` | 将 `a` 的内容设置为 `a` 和 `b` 的并集 |
+| `a.intersection(b)` | `a & b` | `a` 和 `b` 的交集 |
+| `a.intersection_update(b)` | `a &= b` | 将 `a` 的内容设置为 `a` 和 `b` 的交集 |
+| `a.difference(b)` | `a - b` | `a` 中有 `b` 中没有的元素 |
+| `a.difference_update(b)` | `a -= b` | 将 `a` 设置为 `a` 中有 `b` 中没有的元素 |
+| `a.symmetric_difference(b)` | `a ^ b` | `a` 或 `b` 中有，但不能同时存在的元素 |
+| `a.symmetric_difference_update(b)	` | `a ^= b` | 将 `a` 设置为 `a` 或 `b` 中有，但不能同时存在的元素 |
+| `a.issubset(b)` | `<=` | 如果 `a` 的元素全部包含在 `b` 中，则为 `True` |
+| `a.issuperset(b)` | `>=` | 如果 `b` 的元素全部包含在 `a` 中，则为 `True` |
+| `a.isdisjoint(b)` | N/A | 如果 `a` 和 `b` 没有共同元素，则为 `True` |
+
+: Table 3.1: Python set operations
+
+::: {.callout-note}
+如果将不是集合的输入传递给 `union` 和 `intersection` 等方法，Python 会在执行操作之前将输入转换为集合。使用二元运算符时，两个对象都必须已设置。
+:::
+
+所有逻辑集合操作都有就地对应项，这使您能够用结果替换操作左侧的集合内容。对于非常大的集合，这可能更有效：
+
+```python
+In [132]: c = a.copy()
+
+In [133]: c |= b
+
+In [134]: c
+Out[134]: {1, 2, 3, 4, 5, 6, 7, 8}
+
+In [135]: d = a.copy()
+
+In [136]: d &= b
+
+In [137]: d
+Out[137]: {3, 4, 5}
+```
+
+与字典键一样，集合元素通常必须是不可变的，并且它们必须是可哈希的（hashable）（这意味着对值调用 `hash` 不会引发异常）。为了在集合中存储类似列表的元素（或其他可变序列），您可以将它们转换为元组：
+
+```python
+In [138]: my_data = [1, 2, 3, 4]
+
+In [139]: my_set = {tuple(my_data)}
+
+In [140]: my_set
+Out[140]: {(1, 2, 3, 4)}
+```
+
+您还可以检查一个集合是否是另一个集合的子集（包含在其中）或超集（包含其所有元素）：
+
+```python
+In [141]: a_set = {1, 2, 3, 4, 5}
+
+In [142]: {1, 2, 3}.issubset(a_set)
+Out[142]: True
+
+In [143]: a_set.issuperset({1, 2, 3})
+Out[143]: True
+```
+
+集合相等当且仅当它们的内容相等：
+
+```python
+In [144]: {1, 2, 3} == {3, 2, 1}
+Out[144]: True
+```
+
+
+### Built-In Sequence Functions
+
+Python 有一些有用的序列函数，您应该熟悉它们并在任何机会使用它们。
+
+**enumerate（枚举）**
+
+在迭代序列时，通常希望跟踪当前项的索引。自己动手的方法如下所示：
+
+```python
+index = 0
+for value in collection:
+   # do something with value
+   index += 1
+```
+
+由于这种情况很常见，Python 有一个内置函数 `enumerate`，它返回 `(i, value)` 元组序列：
+
+```python
+for index, value in enumerate(collection):
+   # do something with value
+```
+
+**sorted（排序）**
+
+`sorted` 函数从任何序列的元素中返回一个新的排序列表：
+
+```python
+In [145]: sorted([7, 1, 2, 6, 0, 3, 2])
+Out[145]: [0, 1, 2, 2, 3, 6, 7]
+
+In [146]: sorted("horse race")
+Out[146]: [' ', 'a', 'c', 'e', 'e', 'h', 'o', 'r', 'r', 's']
+```
+
+`sorted` 函数接受与列表 `sort` 方法相同的参数。
+
+**zip**
+
+`zip` 将多个列表、元组或其他序列的元素“配对”以创建元组列表：
+
+```python
+In [147]: seq1 = ["foo", "bar", "baz"]
+
+In [148]: seq2 = ["one", "two", "three"]
+
+In [149]: zipped = zip(seq1, seq2)
+
+In [150]: list(zipped)
+Out[150]: [('foo', 'one'), ('bar', 'two'), ('baz', 'three')]
+```
+
+`zip` 可以采用任意数量的序列，它产生的元素数量由最短序列决定：
+
+```python
+In [151]: seq3 = [False, True]
+
+In [152]: list(zip(seq1, seq2, seq3))
+Out[152]: [('foo', 'one', False), ('bar', 'two', True)]
+```
+
+`zip` 的常见用法是同时迭代多个序列，也可能与 `enumerate` 结合使用：
+
+```python
+In [153]: for index, (a, b) in enumerate(zip(seq1, seq2)):
+   .....:     print(f"{index}: {a}, {b}")
+   .....:
+0: foo, one
+1: bar, two
+2: baz, three
+```
+
+**reversed（倒序）**
+
+`reversed` 以相反的顺序迭代序列的元素：
+
+```python
+In [154]: list(reversed(range(10)))
+Out[154]: [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+```
+
+请记住，`reverse` 是一个生成器（稍后将更详细地讨论），因此它不会创建反转序列，直到具体化（例如，使用 `list` 或 `for` 循环）。
+
+
+### List, Set, and Dictionary Comprehensions
+
+列表推导式是一种方便且广泛使用的 Python 语言功能。它们允许您通过过滤集合的元素、将通过过滤器的元素转换为一个简洁的表达式来简洁地形成一个新列表。它们采用基本形式：
+
+```python
+[expr for value in collection if condition]
+```
+
+这相当于以下 `for` 循环：
+
+```python
+result = []
+for value in collection:
+    if condition:
+        result.append(expr)
+```
+
+过滤条件可以省略，只留下表达式。例如，给定一个字符串列表，我们可以过滤掉长度为 `2` 或更小的字符串，并将它们转换为大写，如下所示：
+
+```python
+In [155]: strings = ["a", "as", "bat", "car", "dove", "python"]
+
+In [156]: [x.upper() for x in strings if len(x) > 2]
+Out[156]: ['BAT', 'CAR', 'DOVE', 'PYTHON']
+```
+
+集合和字典推导式是一种自然的扩展，以惯用的类似方式而不是列表生成集合和字典。
+
+字典推导式如下所示：
+
+```python
+dict_comp = {key-expr: value-expr for value in collection
+             if condition}
+```
+
+集合推导式看起来与等效的列表推导式相似，只是使用大括号而不是方括号：
+
+```python
+set_comp = {expr for value in collection if condition}
+```
+
+与列表推导式一样，集合推导式和字典推导式大多都很方便，但它们同样可以使代码更易于编写和阅读。考虑之前的字符串列表。假设我们想要一个仅包含集合中字符串长度的集合；我们可以使用集合推导式轻松计算：
+
+```python
+In [157]: unique_lengths = {len(x) for x in strings}
+
+In [158]: unique_lengths
+Out[158]: {1, 2, 3, 4, 6}
+```
+
+我们还可以使用稍后介绍的 `map` 函数来更功能地表达这一点：
+
+```python
+In [159]: set(map(len, strings))
+Out[159]: {1, 2, 3, 4, 6}
+```
+
+作为一个简单的字典推导式示例，我们可以创建这些字符串的查找映射以查找它们在列表中的位置：
+
+```python
+In [160]: loc_mapping = {value: index for index, value in enumerate(strings)}
+
+In [161]: loc_mapping
+Out[161]: {'a': 0, 'as': 1, 'bat': 2, 'car': 3, 'dove': 4, 'python': 5}
+```
+
+**Nested list comprehensions（嵌套列表推导式）**
+
+假设我们有一个包含一些英语和西班牙语名称的列表列表：
+
+```python
+In [162]: all_data = [["John", "Emily", "Michael", "Mary", "Steven"],
+   .....:             ["Maria", "Juan", "Javier", "Natalia", "Pilar"]]
+```
+
+假设我们想要获取一个包含所有带有两个或多个 `a` 的名称的列表。我们当然可以通过一个简单的 `for` 循环来做到这一点：
+
+```python
+In [163]: names_of_interest = []
+
+In [164]: for names in all_data:
+   .....:     enough_as = [name for name in names if name.count("a") >= 2]
+   .....:     names_of_interest.extend(enough_as)
+   .....:
+
+In [165]: names_of_interest
+Out[165]: ['Maria', 'Natalia']
+```
+
+实际上，您可以将整个操作包装在单个嵌套列表推导式中，如下所示：
+
+```python
+In [166]: result = [name for names in all_data for name in names
+   .....:           if name.count("a") >= 2]
+
+In [167]: result
+Out[167]: ['Maria', 'Natalia']
+```
+
+一开始，嵌套列表推导式有点难以理解。列表推导式的 `for` 部分按照嵌套顺序排列，任何过滤条件都像以前一样放在最后。这是另一个例子，我们将整数元组列表“展平（flatten）”为简单的整数列表：
+
+```python
+In [168]: some_tuples = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
+
+In [169]: flattened = [x for tup in some_tuples for x in tup]
+
+In [170]: flattened
+Out[170]: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+请记住，如果您编写嵌套的 `for` 循环而不是列表推导式，则 `for` 表达式的顺序将是相同的：
+
+```python
+flattened = []
+
+for tup in some_tuples:
+    for x in tup:
+        flattened.append(x)
+```
+
+您可以有任意多个嵌套级别，但如果您有超过两层或三层嵌套，您可能应该开始质疑从代码可读性的角度来看这是否有意义。区分刚刚显示的语法和列表推导式中的列表推导式非常重要，这也是完全有效的：
+
+```python
+In [172]: [[x for x in tup] for tup in some_tuples]
+Out[172]: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
+
+这会生成一个列表的列表，而不是所有内部元素的扁平列表。
+
+
+
+## Functions
+
+函数是 Python 中代码组织和重用的主要也是最重要的方法。根据经验，如果您预计需要多次重复相同或非常相似的代码，那么编写可重用函数可能是值得的。函数还可以通过为一组 Python 语句命名来帮助提高代码的可读性。
+
+函数是用 `def` 关键字声明的。函数包含一个可以选择使用 `return` 关键字的代码块：
+
+```python
+In [173]: def my_function(x, y):
+   .....:     return x + y
+```
+
+当到达带有 `return` 的行时，`return` 后的值或表达式将被发送到调用该函数的上下文，例如：
+
+```python
+In [174]: my_function(1, 2)
+Out[174]: 3
+
+In [175]: result = my_function(1, 2)
+
+In [176]: result
+Out[176]: 3
+```
+
+有多个 `return` 语句没有问题。如果 Python 到达函数末尾而没有遇到 `return` 语句，则自动返回 `None`。例如：
+
+```python
+In [177]: def function_without_return(x):
+   .....:     print(x)
+
+In [178]: result = function_without_return("hello!")
+hello!
+
+In [179]: print(result)
+None
+```
+
+每个函数都可以有位置参数和关键字参数。关键字参数最常用于指定默认值或可选参数。这里我们将定义一个带有可选 `z` 参数的函数，默认值为 `1.5`：
+
+```python
+def my_function2(x, y, z=1.5):
+    if z > 1:
+        return z * (x + y)
+    else:
+        return z / (x + y)
+```
+
+虽然关键字参数是可选的，但在调用函数时必须指定所有位置参数。
+
+您可以将值传递给 `z` 参数，无论是否提供关键字，但鼓励使用关键字：
+
+```python
+In [181]: my_function2(5, 6, z=0.7)
+Out[181]: 0.06363636363636363
+
+In [182]: my_function2(3.14, 7, 3.5)
+Out[182]: 35.49
+
+In [183]: my_function2(10, 20)
+Out[183]: 45.0
+```
+
+对函数参数的主要限制是关键字参数必须位于位置参数（如果有）之后。您可以按任意顺序指定关键字参数。这使您不必记住指定函数参数的顺序。您只需记住他们的名字即可。
+
+
+### Namespaces, Scope, and Local Functions
+
+函数可以访问在函数内部创建的变量以及在更高（甚至全局）范围内的函数外部创建的变量。在 Python 中描述变量作用域的另一个更具描述性的名称是*命名空间(namespace)*。默认情况下，在函数内分配的任何变量都会分配给本地命名空间。本地命名空间是在调用函数时创建的，并立即由函数的参数填充。函数完成后，本地名称空间将被销毁（有一些例外情况超出了本章的范围）。考虑以下函数：
+
+```python
+def func():
+    a = []
+    for i in range(5):
+        a.append(i)
+```
+
+当调用 `func()` 时，会创建空列表 `a`，添加五个元素，然后在函数退出时销毁 `a`。假设我们声明了 `a` 如下：
+
+```python
+In [184]: a = []
+
+In [185]: def func():
+   .....:     for i in range(5):
+   .....:         a.append(i)
+```
+
+每次调用 `func` 都会修改列表 `a`：
+
+```python
+In [186]: func()
+
+In [187]: a
+Out[187]: [0, 1, 2, 3, 4]
+
+In [188]: func()
+
+In [189]: a
+Out[189]: [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]
+```
+
+可以在函数范围之外分配变量，但必须使用 `global` 或 `nonlocal` 关键字显式声明这些变量：
+
+```python
+In [190]: a = None
+
+In [191]: def bind_a_variable():
+   .....:     global a
+   .....:     a = []
+   .....: bind_a_variable()
+   .....:
+
+In [192]: print(a)
+[]
+```
+
+`nonlocal` 允许函数修改在非全局的更高级别范围中定义的变量。由于它的使用有些深奥（我在本书中从未使用过它），因此我建议您参阅 Python 文档以了解更多信息。
+
+::: {.callout-caution}
+我通常不鼓励使用 `global` 关键字。通常，全局变量用于存储系统中的某种状态。如果您发现自己使用了很多它们，则可能表明需要面向对象编程（使用类）。
+:::
+
+
+### Returning Multiple Values
+
+当我在使用 Java 和 C++ 编程后第一次使用 Python 编程时，我最喜欢的功能之一是能够使用简单的语法从函数返回多个值。这是一个例子：
+
+```python
+def f():
+    a = 5
+    b = 6
+    c = 7
+    return a, b, c
+
+a, b, c = f()
+```
+
+在数据分析和其他科学应用中，您可能会发现自己经常这样做。这里发生的情况是，该函数实际上只是返回一个对象，一个元组，然后将其解压缩到结果变量中。在前面的示例中，我们可以这样做：
+
+```python
+return_value = f()
+```
+
+在这种情况下，`return_value` 将是一个包含三个返回变量的三元组。像以前一样返回多个值的一个潜在有吸引力的替代方案可能是返回一个字典：
+
+```python
+def f():
+    a = 5
+    b = 6
+    c = 7
+    return {"a" : a, "b" : b, "c" : c}
+```
+
+这种替代技术可能会很有用，具体取决于您想要做什么。
+
+
+### Functions Are Objects
+
+由于 Python 函数是对象，因此可以轻松表达许多在其他语言中难以做到的结构。假设我们正在进行一些数据清理，并且需要对以下字符串列表应用一系列转换：
+
+```python
+In [193]: states = ["   Alabama ", "Georgia!", "Georgia", "georgia", "FlOrIda",
+   .....:           "south   carolina##", "West virginia?"]
+```
+
+任何曾经处理过用户提交的调查数据的人都见过这样混乱的结果。为了使这个字符串列表统一并准备好进行分析，需要做很多事情：去除空格、删除标点符号以及标准化正确的大写。一种方法是使用内置字符串方法以及正则表达式的 `re` 标准库模块：
+
+```python
+import re
+
+def clean_strings(strings):
+    result = []
+    for value in strings:
+        value = value.strip()
+        value = re.sub("[!#?]", "", value)
+        value = value.title()
+        result.append(value)
+    return result
+```
+
+结果如下：
+
+```python
+In [195]: clean_strings(states)
+Out[195]: 
+['Alabama',
+ 'Georgia',
+ 'Georgia',
+ 'Georgia',
+ 'Florida',
+ 'South   Carolina',
+ 'West Virginia']
+```
+
+您可能会发现有用的另一种方法是列出要应用于特定字符串集的操作：
+
+```python
+def remove_punctuation(value):
+    return re.sub("[!#?]", "", value)
+
+clean_ops = [str.strip, remove_punctuation, str.title]
+
+def clean_strings(strings, ops):
+    result = []
+    for value in strings:
+        for func in ops:
+            value = func(value)
+        result.append(value)
+    return result
+```
+
+然后我们有以下内容：
+
+```python
+In [197]: clean_strings(states, clean_ops)
+Out[197]: 
+['Alabama',
+ 'Georgia',
+ 'Georgia',
+ 'Georgia',
+ 'Florida',
+ 'South   Carolina',
+ 'West Virginia']
+```
+
+像这样的更实用的模式使您能够轻松地在非常高的级别上修改字符串的转换方式。 `clean_strings` 函数现在也更加可重用和通用。
+
+您可以使用函数作为其他函数的参数，例如内置的映射函数，它将函数应用于某种序列：
+
+```python
+In [198]: for x in map(remove_punctuation, states):
+   .....:     print(x)
+Alabama 
+Georgia
+Georgia
+georgia
+FlOrIda
+south   carolina
+West virginia
+```
+
+`map` 可以用作列表推导式的替代方案，无需任何过滤器。
+
+
+### Anonymous (Lambda) Functions
+
+Python 支持所谓的*匿名函数(anonymous)*或 *lambda* 函数，它们是一种编写由单个语句组成的函数的方法，其结果是返回值。它们是用 `lambda` 关键字定义的，除了“我们正在声明一个匿名函数”之外没有任何意义：
+
+```python
+In [199]: def short_function(x):
+   .....:     return x * 2
+
+In [200]: equiv_anon = lambda x: x * 2
+```
+
+在本书的其余部分中，我通常将这些称为 lambda 函数。它们在数据分析中特别方便，因为正如您将看到的，在很多情况下数据转换函数将函数作为参数。与编写完整的函数声明甚至将 lambda 函数分配给局部变量相比，传递 lambda 函数通常需要更少的输入（并且更清晰）。考虑这个例子：
+
+```python
+In [201]: def apply_to_list(some_list, f):
+   .....:     return [f(x) for x in some_list]
+
+In [202]: ints = [4, 0, 1, 5, 6]
+
+In [203]: apply_to_list(ints, lambda x: x * 2)
+Out[203]: [8, 0, 2, 10, 12]
+```
+
+您也可以编写 `[x * 2 for x in ints]`，但在这里我们能够简洁地将自定义运算符传递给 `apply_to_list` 函数。
+
+再举一个例子，假设您想按每个字符串中不同字母的数量对字符串集合进行排序：
+
+```python
+In [204]: strings = ["foo", "card", "bar", "aaaa", "abab"]
+```
+
+这里我们可以将 lambda 函数传递给列表的 `sort` 方法：
+
+```python
+In [205]: strings.sort(key=lambda x: len(set(x)))
+
+In [206]: strings
+Out[206]: ['aaaa', 'foo', 'abab', 'bar', 'card']
+```
+
+
+### Generators
+
+Python 中的许多对象都支持迭代，例如列表中的对象或文件中的行。这是通过迭代器协议来完成的，迭代器协议是使对象可迭代的通用方法。例如，迭代字典会产生字典键：
+
+```python
+In [207]: some_dict = {"a": 1, "b": 2, "c": 3}
+
+In [208]: for key in some_dict:
+   .....:     print(key)
+a
+b
+c
+```
+
+当您写入 `for key in some_dict` 时，Python 解释器首先尝试从 `some_dict` 创建一个迭代器：
+
+```python
+In [209]: dict_iterator = iter(some_dict)
+
+In [210]: dict_iterator
+Out[210]: <dict_keyiterator at 0x17d60e020>
+```
+
+迭代器是在 `for` 循环等上下文中使用时将向 Python 解释器生成对象的任何对象。大多数需要列表或类列表对象的方法也将接受任何可迭代对象。这包括内置方法（例如 `min`、`max` 和 `sum`）以及类型构造函数（例如 `list` 和 `tuple`）：
+
+```python
+In [211]: list(dict_iterator)
+Out[211]: ['a', 'b', 'c']
+```
+
+*生成器(generator)*是一种构造新的可迭代对象的便捷方法，类似于编写普通函数。普通函数一次执行并返回一个结果，而生成器可以通过每次使用生成器时暂停和恢复执行来返回多个值的序列。要创建生成器，请在函数中使用 `yield` 关键字而不是 `return`：
+
+```python
+def squares(n=10):
+    print(f"Generating squares from 1 to {n ** 2}")
+    for i in range(1, n + 1):
+        yield i ** 2
+```
+
+当您实际调用生成器时，不会立即执行任何代码：
+
+```python
+In [213]: gen = squares()
+
+In [214]: gen
+Out[214]: <generator object squares at 0x17d5fea40>
+```
+
+直到您从生成器请求元素后，它才开始执行其代码：
+
+```python
+In [215]: for x in gen:
+   .....:     print(x, end=" ")
+Generating squares from 1 to 100
+1 4 9 16 25 36 49 64 81 100
+```
+
+::: {.callout-note}
+由于生成器一次生成一个元素而不是一次生成整个列表，因此它可以帮助您的程序使用更少的内存。
+:::
+
+**Generator expressions**
+
+制作生成器的另一种方法是使用生成器表达式。这是一个类似于列表、字典和集合推导式的生成器。要创建一个，请将本来是列表理解的内容括在括号而不是方括号内：
+
+```python
+In [216]: gen = (x ** 2 for x in range(100))
+
+In [217]: gen
+Out[217]: <generator object <genexpr> at 0x17d5feff0>
+```
+
+这相当于以下更详细的生成器：
+
+```python
+def _make_gen():
+    for x in range(100):
+        yield x ** 2
+gen = _make_gen()
+```
+
+在某些情况下，可以使用生成器表达式代替列表推导式作为函数参数：
+
+```python
+In [218]: sum(x ** 2 for x in range(100))
+Out[218]: 328350
+
+In [219]: dict((i, i ** 2) for i in range(5))
+Out[219]: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+```
+
+根据理解表达式生成的元素数量，生成器版本有时可能会更快。
+
+**itertools module**
+
+标准库 `itertools` 模块包含许多常见数据算法的生成器集合。例如，`groupby` 接受任何序列和一个函数，根据函数的返回值对序列中的连续元素进行分组。这是一个例子：
+
+```python
+In [220]: import itertools
+
+In [221]: def first_letter(x):
+   .....:     return x[0]
+
+In [222]: names = ["Alan", "Adam", "Wes", "Will", "Albert", "Steven"]
+
+In [223]: for letter, names in itertools.groupby(names, first_letter):
+   .....:     print(letter, list(names)) # names is a generator
+A ['Alan', 'Adam']
+W ['Wes', 'Will']
+A ['Albert']
+S ['Steven']
+```
+
+请参阅 [Table 3.2](https://wesmckinney.com/book/python-builtin#tbl-table_itertools)，了解我经常发现有用的其他一些 `itertools` 函数的列表。您可能想查看 [the official Python documentation](https://docs.python.org/3/library/itertools.html)，了解有关这个有用的内置实用程序模块的更多信息。
+
+| Function | Description |
+|:---------|:-----|
+| `chain(*iterables)` | 通过将迭代器链接在一起生成序列。一旦第一个迭代器中的元素耗尽，就会返回下一个迭代器中的元素，依此类推。 |
+| `combinations(iterable, k)` | 以可迭代的方式生成所有可能的 `k` 元组元素的序列，忽略顺序且不进行替换（另请参阅配套函数 `Combinations_with_replacement`）。 |
+| `permutations(iterable, k)` | 以可迭代、尊重的顺序生成所有可能的 `k` 元组元素的序列。 |
+| `groupby(iterable[, keyfunc])` | 为每个唯一键生成（键，子迭代器）。 |
+| `product(*iterables, repeat=1)` | 将输入可迭代对象的笛卡尔积生成为元组，类似于嵌套的 `for` 循环。 |
+
+: Table 3.2: Some useful `itertools` functions
+
+
+### Errors and Exception Handling
+
+优雅地处理 Python 错误或异常是构建健壮程序的重要组成部分。在数据分析应用程序中，许多函数仅适用于某些类型的输入。例如，Python 的 `float` 函数能够将字符串转换为浮点数，但在输入不正确时会失败并出现 `ValueError`：
+
+```python
+In [224]: float("1.2345")
+Out[224]: 1.2345
+
+In [225]: float("something")
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-225-5ccfe07933f4> in <module>
+----> 1 float("something")
+ValueError: could not convert string to float: 'something'
+```
+
+假设我们想要一个能够正常失败并返回输入参数的 `float` 版本。我们可以通过编写一个函数来实现这一点，该函数将对 `float` 的调用封装在 `try`/`except` 块中（在 IPython 中执行此代码）：
+
+```python
+def attempt_float(x):
+    try:
+        return float(x)
+    except:
+        return x
+```
+
+仅当 `float(x)` 引发异常时才会执行该块的 `except` 部分中的代码：
+
+```python
+In [227]: attempt_float("1.2345")
+Out[227]: 1.2345
+
+In [228]: attempt_float("something")
+Out[228]: 'something'
+```
+
+您可能会注意到 `float` 可以引发 `ValueError` 以外的异常：
+
+```python
+In [229]: float((1, 2))
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-229-82f777b0e564> in <module>
+----> 1 float((1, 2))
+TypeError: float() argument must be a string or a real number, not 'tuple'
+```
+
+您可能只想抑制 `ValueError`，因为 `TypeError`（输入不是字符串或数值）可能表明程序中存在合法错误。为此，请在 `except` 后面写入异常类型：
+
+```python
+def attempt_float(x):
+    try:
+        return float(x)
+    except ValueError:
+        return x
+```
+
+那么我们有：
+
+```python
+In [231]: attempt_float((1, 2))
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-231-8b0026e9e6b7> in <module>
+----> 1 attempt_float((1, 2))
+<ipython-input-230-6209ddecd2b5> in attempt_float(x)
+      1 def attempt_float(x):
+      2     try:
+----> 3         return float(x)
+      4     except ValueError:
+      5         return x
+TypeError: float() argument must be a string or a real number, not 'tuple'
+```
+
+您可以通过编写异常类型的元组来捕获多个异常类型（括号是必需的）：
+
+```python
+def attempt_float(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return x
+```
+
+在某些情况下，您可能不想抑制异常，但希望无论 `try` 块中的代码是否成功都执行某些代码。为此，请使用 `finally`：
+
+```python
+f = open(path, mode="w")
+
+try:
+    write_to_file(f)
+finally:
+    f.close()
+```
+
+在这里，文件对象 `f` 将始终被关闭。类似地，您可以使用 `else` 使代码仅在 `try:` 块成功时才执行：
+
+```python
+f = open(path, mode="w")
+
+try:
+    write_to_file(f)
+except:
+    print("Failed")
+else:
+    print("Succeeded")
+finally:
+    f.close()
+```
+
+**Exceptions in IPython**
+
+如果在运行脚本或执行任何语句时引发异常，IPython 默认情况下将打印完整的调用堆栈跟踪（traceback），其中包含堆栈中每个点位置周围的几行上下文：
+
+```python
+In [10]: %run examples/ipython_bug.py
+---------------------------------------------------------------------------
+AssertionError                            Traceback (most recent call last)
+/home/wesm/code/pydata-book/examples/ipython_bug.py in <module>()
+     13     throws_an_exception()
+     14
+---> 15 calling_things()
+
+/home/wesm/code/pydata-book/examples/ipython_bug.py in calling_things()
+     11 def calling_things():
+     12     works_fine()
+---> 13     throws_an_exception()
+     14
+     15 calling_things()
+
+/home/wesm/code/pydata-book/examples/ipython_bug.py in throws_an_exception()
+      7     a = 5
+      8     b = 6
+----> 9     assert(a + b == 10)
+     10
+     11 def calling_things():
+
+AssertionError:
+```
+
+与标准 Python 解释器（不提供任何附加上下文）相比，拥有附加上下文本身是一个很大的优势。您可以使用 `%xmode` 魔术命令控制显示的上下文量，从 `Plain`（与标准 Python 解释器相同）到 `Verbose`（内联函数参数值等）。正如您稍后将在 [Appendix B: More on the IPython System](https://wesmckinney.com/book/ipython) 中看到的那样，您可以在发生错误后进入堆栈（使用 `%debug` 或 `%pdb` 魔法）进行交互式事后调试。
+
+
+
+## Files and the Operating System
+
+本书的大部分内容都使用 `pandas.read_csv` 等高级工具将数据文件从磁盘读取到 Python 数据结构中。然而，了解如何在 Python 中使用文件的基础知识非常重要。幸运的是，它相对简单，这也是 Python 在文本和文件修改方面如此流行的原因之一。
+
+要打开文件进行读取或写入，请使用带有相对或绝对文件路径和可选文件编码的内置 `open` 函数：
+
+```python
+In [233]: path = "examples/segismundo.txt"
+
+In [234]: f = open(path, encoding="utf-8")
+```
+
+在这里，我将`encoding="utf-8"`作为最佳实践，因为读取文件的默认 Unicode 编码因平台而异。
+
+默认情况下，文件以只读模式`"r"`打开。然后我们可以将文件对象 `f` 视为列表并迭代各行，如下所示：
+
+```python
+for line in f:
+    print(line)
+```
+
+这些行从文件中出来时，行尾 (EOL) 标记完好无损，因此您经常会看到在文件中获取无 EOL 行列表的代码，例如：
+
+```python
+In [235]: lines = [x.rstrip() for x in open(path, encoding="utf-8")]
+
+In [236]: lines
+Out[236]: 
+['Sueña el rico en su riqueza,',
+ 'que más cuidados le ofrece;',
+ '',
+ 'sueña el pobre que padece',
+ 'su miseria y su pobreza;',
+ '',
+ 'sueña el que a medrar empieza,',
+ 'sueña el que afana y pretende,',
+ 'sueña el que agravia y ofende,',
+ '',
+ 'y en el mundo, en conclusión,',
+ 'todos sueñan lo que son,',
+ 'aunque ninguno lo entiende.',
+ '']
+```
+
+当您使用 `open` 创建文件对象时，建议在使用完毕后关闭该文件。关闭文件会将其资源释放回操作系统：
+
+```python
+In [237]: f.close()
+```
+
+更轻松地清理打开的文件的方法之一是使用 `with` 语句：
+
+```python
+In [238]: with open(path, encoding="utf-8") as f:
+   .....:     lines = [x.rstrip() for x in f]
+```
+
+这将在退出 `with` 块时自动关闭文件 `f`。无法确保文件关闭不会在许多小程序或脚本中导致问题，但在需要与大量文件交互的程序中可能会出现问题。
+
+如果我们输入 `f = open(path, "w")`，则会在 *Examples/segismundo.txt* 中创建一个新文件（小心！），覆盖其位置上的任何文件。还有`"x"`文件模式，它创建一个可写文件，但如果文件路径已经存在则失败。有关所有有效文件读/写模式的列表，请参阅 [Table 3.3](https://wesmckinney.com/book/python-builtin#tbl-table_file_modes)。
+
+| Mode | Description |
+|:---------|:-----|
+| `r` | 只读模式 |
+| `w` | 只写模式；创建一个新文件（删除任何同名文件的数据） |
+| `x` | 只写模式；创建新文件，但如果文件路径已存在则失败 |
+| `a` | 追加到现有文件（如果文件尚不存在则创建该文件） |
+| `r+` | 读和写 |
+| `b` | 添加到二进制文件的模式（即`"rb"`或`"wb"`） |
+| `t` | 文件的文本模式（自动将字节解码为 Unicode）；如果未指定，则这是默认值 |
+
+: Table 3.3: Python file modes
+
+对于可读文件，最常用的一些方法是 `read`、`seek` 和 `tell`。`read` 从文件中返回一定数量的字符。“字符”的构成由文件编码决定，如果文件以二进制模式打开，则由原始字节决定：
+
+```python
+In [239]: f1 = open(path)
+
+In [240]: f1.read(10)
+Out[240]: 'Sueña el r'
+
+In [241]: f2 = open(path, mode="rb")  # Binary mode
+
+In [242]: f2.read(10)
+Out[242]: b'Sue\xc3\xb1a el '
+```
+
+`read` 方法将文件对象位置前进所读取的字节数。告诉你当前的位置：
+
+```python
+In [243]: f1.tell()
+Out[243]: 11
+
+In [244]: f2.tell()
+Out[244]: 10
+```
+
+即使我们从以文本模式打开的文件 `f1` 中读取了 10 个字符，位置也是 11，因为使用默认编码解码 10 个字符需要那么多字节。您可以检查 `sys` 模块中的默认编码：
+
+```python
+In [245]: import sys
+
+In [246]: sys.getdefaultencoding()
+Out[246]: 'utf-8'
+```
+
+为了获得跨平台的一致行为，最好在打开文件时传递编码（例如广泛使用的`encoding ="utf-8"`）。
+
+`seek` 将文件位置更改为文件中指定的字节：
+
+```python
+In [247]: f1.seek(3)
+Out[247]: 3
+
+In [248]: f1.read(1)
+Out[248]: 'ñ'
+
+In [249]: f1.tell()
+Out[249]: 5
+```
+
+最后，我们记得关闭文件：
+
+```python
+In [250]: f1.close()
+
+In [251]: f2.close()
+```
+
+要将文本写入文件，可以使用文件的 `write` 或 `writelines` 方法。例如，我们可以创建一个没有空行的 *example/segismundo.txt* 版本，如下所示：
+
+```python
+In [252]: path
+Out[252]: 'examples/segismundo.txt'
+
+In [253]: with open("tmp.txt", mode="w") as handle:
+   .....:     handle.writelines(x for x in open(path) if len(x) > 1)
+
+In [254]: with open("tmp.txt") as f:
+   .....:     lines = f.readlines()
+
+In [255]: lines
+Out[255]: 
+['Sueña el rico en su riqueza,\n',
+ 'que más cuidados le ofrece;\n',
+ 'sueña el pobre que padece\n',
+ 'su miseria y su pobreza;\n',
+ 'sueña el que a medrar empieza,\n',
+ 'sueña el que afana y pretende,\n',
+ 'sueña el que agravia y ofende,\n',
+ 'y en el mundo, en conclusión,\n',
+ 'todos sueñan lo que son,\n',
+ 'aunque ninguno lo entiende.\n']
+```
+
+有关许多最常用的文件方法，请参阅 [Table 3.4](https://wesmckinney.com/book/python-builtin#tbl-table_file_methods)。
+
+| Method/attribute | Description |
+|:---------|:-----|
+| `read([size])` | 根据文件模式以字节或字符串形式从文件返回数据，可选 `size` 参数指示要读取的字节数或字符串字符数 |
+| `readable()` | 如果文件支持 `read` 操作则返回 `True` |
+| `readlines([size])` | 返回文件中的行列表，带有可选的 `size` 参数 |
+| `write(string)` |	将传递的字符串写入文件 |
+| `writable()` | 如果文件支持 `write` 操作则返回 `True` |
+| `writelines(strings)` | 将传递的字符串序列写入文件 |
+| `close()` | 关闭文件对象 |
+| `flush()` | 将内部 I/O 缓冲区刷新到磁盘 |
+| `seek(pos)` |	移动到指定的文件位置（整数）|
+| `seekable()` | 如果文件对象支持查找并因此支持随机访问（某些类似文件的对象不支持），则返回 `True` |
+| `tell()` | 以整数形式返回当前文件位置 |
+| `closed` | 如果文件已关闭则为 `True` |
+| `encoding` | 用于将文件中的字节解释为 Unicode（通常为 UTF-8）的编码 |
+
+: Table 3.4: Important Python file methods or attributes
+
+
+### Bytes and Unicode with Files
+
+Python 文件的默认行为（无论是可读还是可写）是文本模式，这意味着您打算使用 Python 字符串（即 Unicode）。这与二进制模式形成对比，您可以通过将 `b` 附加到文件模式来获得二进制模式。重新访问上一节中的文件（其中包含采用 UTF-8 编码的非 ASCII 字符），我们有：
+
+```python
+In [258]: with open(path) as f:
+   .....:     chars = f.read(10)
+
+In [259]: chars
+Out[259]: 'Sueña el r'
+
+In [260]: len(chars)
+Out[260]: 10
+```
+
+UTF-8 是一种可变长度的 Unicode 编码，因此当我从文件中请求一定数量的字符时，Python 会从文件中读取足够的字节（可能少至 10 个字节，也可能多至 40 个字节）来解码那么多字符。如果我以`"rb"`模式打开文件，则读取请求的确切字节数：
+
+```python
+In [261]: with open(path, mode="rb") as f:
+   .....:     data = f.read(10)
+
+In [262]: data
+Out[262]: b'Sue\xc3\xb1a el '
+```
+
+根据文本编码，您可以自己将字节解码为 `str` 对象，但前提是每个编码的 Unicode 字符都完全形成：
+
+```python
+In [263]: data.decode("utf-8")
+Out[263]: 'Sueña el '
+
+In [264]: data[:4].decode("utf-8")
+---------------------------------------------------------------------------
+UnicodeDecodeError                        Traceback (most recent call last)
+<ipython-input-264-846a5c2fed34> in <module>
+----> 1 data[:4].decode("utf-8")
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3 in position 3: unexpecte
+d end of data
+```
+
+文本模式与 `open` 的 `encoding` 选项相结合，提供了一种从一种 Unicode 编码转换为另一种编码的便捷方法：
+
+```python
+In [265]: sink_path = "sink.txt"
+
+In [266]: with open(path) as source:
+   .....:     with open(sink_path, "x", encoding="iso-8859-1") as sink:
+   .....:         sink.write(source.read())
+
+In [267]: with open(sink_path, encoding="iso-8859-1") as f:
+   .....:     print(f.read(10))
+Sueña el r
+```
+
+以二进制以外的任何模式打开文件时请注意使用 `seek`。如果文件位置位于定义 Unicode 字符的字节中间，则后续读取将导致错误：
+
+```python
+In [269]: f = open(path, encoding='utf-8')
+
+In [270]: f.read(5)
+Out[270]: 'Sueña'
+
+In [271]: f.seek(4)
+Out[271]: 4
+
+In [272]: f.read(1)
+---------------------------------------------------------------------------
+UnicodeDecodeError                        Traceback (most recent call last)
+<ipython-input-272-5a354f952aa4> in <module>
+----> 1 f.read(1)
+~/miniforge-x86/envs/book-env/lib/python3.10/codecs.py in decode(self, input, fin
+al)
+    320         # decode input (taking the buffer into account)
+    321         data = self.buffer + input
+--> 322         (result, consumed) = self._buffer_decode(data, self.errors, final
+)
+    323         # keep undecoded input until the next call
+    324         self.buffer = data[consumed:]
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb1 in position 0: invalid s
+tart byte
+
+In [273]: f.close()
+```
+
+如果您发现自己经常对 non-ASCII 文本数据进行数据分析，那么掌握 Python 的 Unicode 功能将非常有价值。有关更多信息，请参阅 [Python's online documentation](https://docs.python.org/)。
+
+
+
+## Conclusion
+
+现在您已经掌握了 Python 环境和语言的一些基础知识，是时候继续学习 NumPy 和 Python 中面向数组的计算了。

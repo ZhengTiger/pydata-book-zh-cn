@@ -16,5 +16,8 @@
   },
   "02.python-basics.qmd": {
     "02.python-basics.html": "38ad0a0f"
+  },
+  "03.python-builtin.qmd": {
+    "03.python-builtin.html": "fbab55f3"
   }
 }
