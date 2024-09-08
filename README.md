@@ -16,7 +16,7 @@ Try to translate Python for Data Analysis (the third edition) into Simplified Ch
 | 2  Python Language Basics, IPython, and Jupyter Notebooks | ✔        | 2024.9.5 |
 | 3  Built-In Data Structures, Functions, and Files         | ✔        | 2024.9.6 |
 | 4  NumPy Basics: Arrays and Vectorized Computation        | ✔        | 2024.9.6 |
-| 5  Getting Started with pandas                            |         |  |
+| 5  Getting Started with pandas                            | ✔        | 2024.9.8 |
 | 6  Data Loading, Storage, and File Formats                |         |  |
 | 7  Data Cleaning and Preparation                          |         |  |
 | 8  Data Wrangling: Join, Combine, and Reshape             |         |  |

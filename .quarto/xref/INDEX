@@ -22,5 +22,8 @@
   },
   "04.numpy-basics.qmd": {
     "04.numpy-basics.html": "620b5fc6"
+  },
+  "05.pandas-basics.qmd": {
+    "05.pandas-basics.html": "b1f0cf37"
   }
 }

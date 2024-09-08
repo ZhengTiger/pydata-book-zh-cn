@@ -20,6 +20,7 @@ book:
     - 02.python-basics.qmd
     - 03.python-builtin.qmd
     - 04.numpy-basics.qmd
+    - 05.pandas-basics.qmd
 
 bibliography: references.bib
 
